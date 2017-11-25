@@ -1,7 +1,7 @@
 package com.ph.powerfiler.operation;
 
 import com.ph.powerfiler.exception.ExceptionMessage;
-import com.ph.powerfiler.exception.ExceptionMessageCodeConstants;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.*;
 import com.ph.powerfiler.model.entity.Connection;
@@ -11,28 +11,22 @@ import com.ph.powerfiler.model.entity.Profile;
 import com.ph.powerfiler.repository.ConnectionRepository;
 import com.ph.powerfiler.util.PowerfilerTestConstants;
 import com.ph.powerfiler.util.PowerfilerUtil;
-import com.ph.powerfiler.util.provider.dto.ConnectionsDtoProvider;
-import com.ph.powerfiler.util.provider.dto.MeterValueDtoProvider;
-import com.ph.powerfiler.util.provider.dto.ProfileDtoProvider;
-import com.ph.powerfiler.util.provider.dto.ValidationDtoProvider;
+import com.ph.powerfiler.util.provider.dto.*;
 import com.ph.powerfiler.util.provider.entity.ConnectionProvider;
+import com.ph.powerfiler.util.provider.entity.FractionProvider;
 import com.ph.powerfiler.util.provider.entity.MeterProvider;
 import com.ph.powerfiler.util.provider.entity.ProfileProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ConnectionOperationTest {
 
@@ -49,6 +43,8 @@ public class ConnectionOperationTest {
     private ConnectionRepository connectionRepository;
     @Mock
     private MeterOperation meterOperation;
+    @Mock
+    private FractionOperation fractionOperation;
 
     private ProfileDtoProvider profileDtoProvider;
     private ConnectionsDtoProvider connectionsDtoProvider;
@@ -57,6 +53,8 @@ public class ConnectionOperationTest {
     private MeterValueDtoProvider meterValueDtoProvider;
     private ValidationDtoProvider validationDtoProvider;
     private ProfileProvider profileProvider;
+    private FractionValueDtoProvider fractionValueDtoProvider;
+    private FractionProvider fractionProvider;
 
 
     @Before
@@ -69,17 +67,19 @@ public class ConnectionOperationTest {
         meterValueDtoProvider = new MeterValueDtoProvider();
         validationDtoProvider = new ValidationDtoProvider();
         profileProvider = new ProfileProvider();
+        fractionValueDtoProvider = new FractionValueDtoProvider();
+        fractionProvider = new FractionProvider();
     }
 
     @Test
     public void saveConnectionsGivenNullListWhenSaveConnectionsThenExceptionMessage(){
         ExceptionMessage exceptionMessage = connectionOperation.saveConnections(null);
-        Assert.assertTrue("Exception message has to be equal", exceptionMessage.getErrors().get(0).equalsIgnoreCase(String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE,"Profile")));
+        Assert.assertTrue("Exception message has to be equal", exceptionMessage.getErrors().get(0).equalsIgnoreCase(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE,"Profile")));
     }
     @Test
     public void saveConnectionsGivenEmptyProfileListWhenSaveConnectionsThenExceptionMessage(){
         ExceptionMessage exceptionMessage = connectionOperation.saveConnections(new ArrayList<>());
-        Assert.assertTrue("Exception message has to be equal", exceptionMessage.getErrors().get(0).equalsIgnoreCase(String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE,"Profile")));
+        Assert.assertTrue("Exception message has to be equal", exceptionMessage.getErrors().get(0).equalsIgnoreCase(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE,"Profile")));
     }
 
     @Test
@@ -88,7 +88,7 @@ public class ConnectionOperationTest {
         doNothing().when(validateOperation).validation(Matchers.<HashMap<String, HashMap<String,ConnectionTreeMapDto>>> any(), Matchers.<List<String[]>>any(), Matchers.<List<ValidationDto>>any());
         doNothing().when(profileOperation).saveValidProfiles(Matchers.<HashMap<String, HashMap<String,ConnectionTreeMapDto>>> any(), Matchers.<List<String[]>>any());
         ExceptionMessage exceptionMessage = connectionOperation.saveConnections(profileDtos);
-        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Connection"));
+        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Connection"));
         Assert.assertTrue("Exception message has to be equal", exceptionMessage.toString().equalsIgnoreCase(exceptionMessageStr));
     }
 
@@ -98,7 +98,7 @@ public class ConnectionOperationTest {
         doNothing().when(validateOperation).validation(Matchers.<HashMap<String, HashMap<String,ConnectionTreeMapDto>>> any(), Matchers.<List<String[]>>any(), Matchers.<List<ValidationDto>>any());
         doNothing().when(profileOperation).saveValidProfiles(Matchers.<HashMap<String, HashMap<String,ConnectionTreeMapDto>>> any(), Matchers.<List<String[]>>any());
         ExceptionMessage exceptionMessage = connectionOperation.saveConnections(profileDtos);
-        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "ConnectionData"));
+        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "ConnectionData"));
         Assert.assertTrue("Exception message has to be equal", exceptionMessage.toString().equalsIgnoreCase(exceptionMessageStr));
     }
 
@@ -124,21 +124,21 @@ public class ConnectionOperationTest {
     @Test
     public void saveCsvConnectionsGivenNullConnectionsDtoWhenSaveConnectionsThenExceptionMessage(){
         ExceptionMessage exceptionMessage = connectionOperation.saveCsvConnections(null);
-        Assert.assertTrue("Exception message has to be equal", exceptionMessage.getErrors().get(0).equalsIgnoreCase(String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE,"CSV")));
+        Assert.assertTrue("Exception message has to be equal", exceptionMessage.getErrors().get(0).equalsIgnoreCase(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE,"CSV")));
     }
 
     @Test
     public void saveCsvConnectionsGivenConnectionsDtoWithNullValuesWhenSaveConnectionsThenExceptionMessage(){
         ConnectionsDto connectionsDto = connectionsDtoProvider.createConnectionsDtoWithNullValues();
         ExceptionMessage exceptionMessage = connectionOperation.saveCsvConnections(connectionsDto);
-        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Meter"));
+        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Meter"));
         Assert.assertTrue("Exception message has to be equal", exceptionMessage.toString().equalsIgnoreCase(exceptionMessageStr));
     }
     @Test
     public void saveCsvConnectionsGivenConnectionsDtoWithEmptyMeterDtosAndNullFractionDtosWhenSaveConnectionsThenExceptionMessage(){
         ConnectionsDto connectionsDto = connectionsDtoProvider.createConnectionsDtoWithEmptyMeterDtosAndNullFractionDtos();
         ExceptionMessage exceptionMessage = connectionOperation.saveCsvConnections(connectionsDto);
-        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Meter"));
+        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Meter"));
         Assert.assertTrue("Exception message has to be equal", exceptionMessage.toString().equalsIgnoreCase(exceptionMessageStr));
     }
 
@@ -147,7 +147,7 @@ public class ConnectionOperationTest {
         ConnectionsDto connectionsDto = connectionsDtoProvider.createConnectionsDtoWithMeterDtosAndNullFractionDtos();
         when(powerfilerUtil.convertMonthToInteger(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(1);
         ExceptionMessage exceptionMessage = connectionOperation.saveCsvConnections(connectionsDto);
-        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Fraction"));
+        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Fraction"));
         Assert.assertTrue("Exception message has to be equal", exceptionMessage.toString().equalsIgnoreCase(exceptionMessageStr));
     }
 
@@ -159,7 +159,7 @@ public class ConnectionOperationTest {
         doNothing().when(profileOperation).saveValidProfiles(Matchers.<HashMap<String, HashMap<String,ConnectionTreeMapDto>>> any(), Matchers.<List<String[]>>any());
 
         ExceptionMessage exceptionMessage = connectionOperation.saveCsvConnections(connectionsDto);
-        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(ExceptionMessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Fraction"));
+        String exceptionMessageStr = String.format("ErrorMessage [errors=Code:%s;Message:%s]", MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Fraction"));
         Assert.assertTrue("Exception message has to be zero", exceptionMessage.getErrors().size() == 0);
     }
 
@@ -243,18 +243,18 @@ public class ConnectionOperationTest {
         connectionOperation.addMeter(null, null);
     }
     @Test(expected = PowerfilerException.class)
-    public void addMeterGivenNotValidConnectionWhenAddingMeterThenError() throws PowerfilerException {
+    public void addMeterGivenNotValidConnectionWhenErrorInConnectionThenError() throws PowerfilerException {
         connectionOperation.addMeter(PowerfilerTestConstants.CONNECTION_ID_NOT_VALID, new MeterValueDto(null, null));
     }
     @Test(expected = PowerfilerException.class)
-    public void addMeterGivenConnectionWithoutProfileWhenAddingMeterThenError() throws PowerfilerException {
+    public void addMeterGivenConnectionWithoutProfileWhenErrorInProfileThenError() throws PowerfilerException {
         Connection connection = connectionProvider.createConnection();
         when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
         when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(null);
         connectionOperation.addMeter(PowerfilerTestConstants.CONNECTION_ID_0001, new MeterValueDto(PowerfilerTestConstants.MONTH_NOT_VALID, null));
     }
     @Test(expected = PowerfilerException.class)
-    public void addMeterGivenNotValidMonthInMeterValueDtoWhenAddingMeterThenError() throws PowerfilerException {
+    public void addMeterGivenNotValidMonthInMeterValueDtoWhenErrorInMeterThenError() throws PowerfilerException {
         Connection connection = connectionProvider.createConnection();
         Profile profile = profileProvider.createProfileWithoutConnections();
         when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
@@ -304,6 +304,272 @@ public class ConnectionOperationTest {
         List<ValidationDto> result = connectionOperation.addMeter(PowerfilerTestConstants.CONNECTION_ID_0001, meterValueDto);
         Assert.assertTrue("ValidationDtos size has to be 0 ", result.size() == 0);
     }
+    @Test(expected = PowerfilerException.class)
+    public void deleteMeterGivenNotValidDataWhenDeletingMeterThenException() throws PowerfilerException {
+        connectionOperation.deleteMeter(null,  null);
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void deleteMeterGivenNotValidConnectionIdWhenErrorInConnectionThenException() throws PowerfilerException {
+        connectionOperation.deleteMeter(PowerfilerTestConstants.CONNECTION_ID_NOT_VALID,  null);
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void deleteMeterGivenNotValidMonthWhenErrorInMeterThenException() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(meterOperation.getMeter(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_NOT_VALID))).thenReturn(null);
+        connectionOperation.deleteMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_NOT_VALID);
+    }
+    @Test
+    public void deleteMeterGivenValidDataWhenErrorInDeletingThenException() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        Meter meterJAN = meterProvider.createMeterWithMonthJAN();
+        meterJAN.setId(PowerfilerTestConstants.ID);
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(meterOperation.getMeter(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(meterJAN);
+        when(meterOperation.delete(eq(meterJAN.getId()))).thenReturn(false);
+        ValidationDto validationDto = connectionOperation.deleteMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN);
+        Assert.assertTrue("Error message code expecting", validationDto.getCode().equalsIgnoreCase(MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_CODE));
+    }
+    @Test()
+    public void deleteMeterGivenValidDataWhenDeletingMeterThenSuccess() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        Meter meterJAN = meterProvider.createMeterWithMonthJAN();
+        meterJAN.setId(PowerfilerTestConstants.ID);
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(meterOperation.getMeter(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(meterJAN);
+        when(meterOperation.delete(eq(meterJAN.getId()))).thenReturn(true);
+        ValidationDto validationDto = connectionOperation.deleteMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN);
+        Assert.assertTrue("Success message code expecting", validationDto.getCode().equalsIgnoreCase(MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_CODE));
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void updateMeterGivenNotValidDataWhenUpdatingMeterThanException() throws PowerfilerException {
+        connectionOperation.updateMeter(null ,null, null);
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void updateMeterGivenNotValidConnectionIdThenErrorInConnectionThanException() throws PowerfilerException {
+        connectionOperation.updateMeter(PowerfilerTestConstants.CONNECTION_ID_NOT_VALID ,PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+    }
+    @Test(expected = PowerfilerException.class)
+    public void updateMeterGivenNotValidMonthWhenErrorInMeterThenError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_NOT_VALID))).thenReturn(false);
+        connectionOperation.updateMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_NOT_VALID, PowerfilerTestConstants.METER_READING_JAN);
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void updateMeterGivenValidDataWhenMeterNotFoundThenError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(meterOperation.getMeter(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(null);
+        connectionOperation.updateMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+    }
+
+    @Test
+    public void updateMeterGivenValidDataWhenValidationErrorThenValidaionDtoWithSuccess() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        Meter meterJAN = meterProvider.createMeterWithMonthJAN();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        List<ValidationDto> validationDtos = validationDtoProvider.createValidationDtos();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(meterOperation.getMeter(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(meterJAN);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        when(meterOperation.validateMeter(any(MeterDto.class))).thenReturn(validationDtos);
+        List<ValidationDto> result = connectionOperation.updateMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+        Assert.assertTrue("ValidationDtos size has to be 1 and has to be same message", result.size() == validationDtos.size() &&
+                validationDtos.get(0).getMessage().equalsIgnoreCase(result.get(0).getMessage()));
+        Mockito.verify(meterOperation, never()).update(any(Meter.class));
+    }
+
+    @Test
+    public void updateMeterGivenValidDataWhenValidationErrorThenValidaionDtoWithError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        Meter meterJAN = meterProvider.createMeterWithMonthJAN();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(meterOperation.getMeter(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(meterJAN);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        when(meterOperation.validateMeter(any(MeterDto.class))).thenReturn(new ArrayList<>());
+        when(meterOperation.update(any(Meter.class))).thenReturn(meterJAN);
+        List<ValidationDto> result = connectionOperation.updateMeter(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+        Assert.assertTrue("ValidationDtos size has to be 0", result.size() == 0);
+        Mockito.verify(meterOperation, atMost(1)).update(any(Meter.class));
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void addFractionGivenNotValidDataWhenAddingFractionThenError() throws PowerfilerException {
+        connectionOperation.addFraction(null, null);
+    }
+    @Test(expected = PowerfilerException.class)
+    public void addFractionGivenNotValidConnectionWhenErrorInConnectionThenError() throws PowerfilerException {
+        connectionOperation.addFraction(PowerfilerTestConstants.CONNECTION_ID_NOT_VALID, new FractionValueDto(null, null));
+    }
+    @Test(expected = PowerfilerException.class)
+    public void addFractionGivenNotValidMonthValueDtoWhenErrorInMonthValidaionThenError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_NOT_VALID))).thenReturn(false);
+        connectionOperation.addFraction(PowerfilerTestConstants.CONNECTION_ID_0001, new FractionValueDto(PowerfilerTestConstants.MONTH_NOT_VALID, null));
+    }
+    @Test(expected = PowerfilerException.class)
+    public void addFractionGivenConnectionWithoutProfileWhenErrorInProfileThenError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(null);
+        connectionOperation.addFraction(PowerfilerTestConstants.CONNECTION_ID_0001, new FractionValueDto(PowerfilerTestConstants.MONTH_NOT_VALID, null));
+    }
+    @Test(expected = PowerfilerException.class)
+    public void addFractionGivenValidDataWhenFractionHasAlreadyInsertedThenError() throws PowerfilerException {
+        FractionValueDto fractionValueDto = fractionValueDtoProvider.createFractionValueDto();
+        Fraction fractionJAN = fractionProvider.createFractionWithMonthJAN();
+        Connection connection = connectionProvider.createConnection();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(fractionJAN);
+        connectionOperation.addFraction(PowerfilerTestConstants.CONNECTION_ID_0001, fractionValueDto);
+    }
+
+    @Test
+    public void addFractionGivenValidDataWhenValidationFailThenValidationError() throws PowerfilerException {
+        FractionValueDto fractionValueDto = fractionValueDtoProvider.createFractionValueDto();
+        List<ValidationDto> validationDtos = validationDtoProvider.createValidationDtos();
+        Connection connection = connectionProvider.createConnection();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(null);
+        when(fractionOperation.validateFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(Double.parseDouble(fractionValueDto.getFraction())), anyListOf(Fraction.class), eq(PowerfilerTestConstants.PROFILE_A))).thenReturn(validationDtos);
+        List<ValidationDto> result = connectionOperation.addFraction(PowerfilerTestConstants.CONNECTION_ID_0001, fractionValueDto);
+        Assert.assertTrue("ValidationDtos size has to be 1 and has to be same message", result.size() == validationDtos.size() &&
+                validationDtos.get(0).getMessage().equalsIgnoreCase(result.get(0).getMessage()));
+    }
+
+    @Test
+    public void addFractionGivenValidDataWhenValidationPassThenSuccess() throws PowerfilerException {
+        FractionValueDto fractionValueDto = fractionValueDtoProvider.createFractionValueDto();
+        Connection connection = connectionProvider.createConnection();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(null);
+        when(fractionOperation.validateFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(Double.parseDouble(fractionValueDto.getFraction())), anyListOf(Fraction.class), eq(PowerfilerTestConstants.PROFILE_A))).thenReturn(new ArrayList<>());
+        List<ValidationDto> result = connectionOperation.addFraction(PowerfilerTestConstants.CONNECTION_ID_0001, fractionValueDto);
+        Assert.assertTrue("ValidationDtos size has to be 0", result.size() == 0);
+        Mockito.verify(fractionOperation, atMost(1)).saveAndRelateWithConnection(any(Connection.class), any(FractionDto[].class));
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void deleteFractionGivenNotValidDataWhenDeletingFractionThenException() throws PowerfilerException {
+        connectionOperation.deleteFraction(null,  null);
+    }
+
+    @Test(expected = PowerfilerException.class)
+    public void deleteFractionGivenNotValidConnectionIdWhenErrorInConnectionThenException() throws PowerfilerException {
+        connectionOperation.deleteFraction(PowerfilerTestConstants.CONNECTION_ID_NOT_VALID,  null);
+    }
+    @Test(expected = PowerfilerException.class)
+    public void deleteFractionGivenNotValidMonthWhenErrorInFractionThenException() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_NOT_VALID))).thenReturn(null);
+        connectionOperation.deleteFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_NOT_VALID);
+    }
+    @Test
+    public void deleteFractionGivenValidDataWhenErrorInDeletingThenException() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        Fraction fractionJAN = fractionProvider.createFractionWithMonthJAN();
+        fractionJAN.setId(PowerfilerTestConstants.ID);
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(fractionJAN);
+        when(fractionOperation.delete(eq(fractionJAN.getId()))).thenReturn(false);
+        ValidationDto validationDto = connectionOperation.deleteFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN);
+        Assert.assertTrue("Error message code expecting", validationDto.getCode().equalsIgnoreCase(MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_CODE));
+    }
+    @Test
+    public void deleteFractionGivenValidDataWhenDeletingFractionThenSuccess() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        Fraction fractionJAN = fractionProvider.createFractionWithMonthJAN();
+        fractionJAN.setId(PowerfilerTestConstants.ID);
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(fractionJAN);
+        when(fractionOperation.delete(eq(fractionJAN.getId()))).thenReturn(true);
+        ValidationDto validationDto = connectionOperation.deleteFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN);
+        Assert.assertTrue("Success message code expecting", validationDto.getCode().equalsIgnoreCase(MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_CODE));
+    }
+    @Test(expected = PowerfilerException.class)
+    public void updateFractionGivenNotValidDataWhenUpdatingFractionThanException() throws PowerfilerException {
+        connectionOperation.updateFraction(null ,null, null);
+    }
+    @Test(expected = PowerfilerException.class)
+    public void updateFractionGivenNotValidConnectionIdThenErrorInConnectionThanException() throws PowerfilerException {
+        connectionOperation.updateFraction(PowerfilerTestConstants.CONNECTION_ID_NOT_VALID ,PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+    }
+    @Test(expected = PowerfilerException.class)
+    public void updateFractionGivenNotValidMonthWhenErrorInFractionThenError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_NOT_VALID))).thenReturn(false);
+        connectionOperation.updateFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_NOT_VALID, PowerfilerTestConstants.METER_READING_JAN);
+    }
+    @Test(expected = PowerfilerException.class)
+    public void updateFractionGivenValidDataWhenFractionNotFoundThenError() throws PowerfilerException {
+        Connection connection = connectionProvider.createConnection();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(null);
+        connectionOperation.updateFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+    }
+    @Test
+    public void updateFractionGivenValidDataWhenValidationErrorThenValidaionDtoWithSuccess() throws PowerfilerException {
+        FractionValueDto fractionValueDto = fractionValueDtoProvider.createFractionValueDto();
+        Connection connection = connectionProvider.createConnection();
+        Fraction fractionJAN = fractionProvider.createFractionWithMonthJAN();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        List<ValidationDto> validationDtos = validationDtoProvider.createValidationDtos();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(fractionJAN);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        Double fractionDiff = fractionJAN.getFraction() - Double.parseDouble(fractionValueDto.getFraction());
+        when(fractionOperation.validateFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(fractionDiff), anyListOf(Fraction.class), eq(PowerfilerTestConstants.PROFILE_A))).thenReturn(validationDtos);
+        List<ValidationDto> result = connectionOperation.updateFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.FRACTION_JAN);
+        Assert.assertTrue("ValidationDtos size has to be 1 and has to be same message", result.size() == validationDtos.size() &&
+                validationDtos.get(0).getMessage().equalsIgnoreCase(result.get(0).getMessage()));
+        Mockito.verify(fractionOperation, never()).update(any(Fraction.class));
+    }
+
+    @Test
+    public void updateFractionGivenValidDataWhenValidationErrorThenValidaionDtoWithError() throws PowerfilerException {
+        FractionValueDto fractionValueDto = fractionValueDtoProvider.createFractionValueDto();
+        Connection connection = connectionProvider.createConnection();
+        Fraction fractionJAN = fractionProvider.createFractionWithMonthJAN();
+        Profile profile = profileProvider.createProfileWithoutConnections();
+        when(connectionRepository.getByConnectionId(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(connection);
+        when(powerfilerUtil.isValidMonth(eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(true);
+        when(fractionOperation.getFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(PowerfilerTestConstants.MONTH_JAN))).thenReturn(fractionJAN);
+        when(profileOperation.findOne(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(profile);
+        Double fractionDiff = fractionJAN.getFraction() - Double.parseDouble(fractionValueDto.getFraction());
+        when(fractionOperation.validateFraction(eq(PowerfilerTestConstants.CONNECTION_ID_0001), eq(fractionDiff), anyListOf(Fraction.class), eq(PowerfilerTestConstants.PROFILE_A))).thenReturn(new ArrayList<>());
+        when(fractionOperation.update(any(Fraction.class))).thenReturn(fractionJAN);
+        List<ValidationDto> result = connectionOperation.updateFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.FRACTION_JAN);
+        Assert.assertTrue("ValidationDtos size has to be 0", result.size() == 0);
+        Mockito.verify(meterOperation, atMost(1)).update(any(Meter.class));
+    }
+
+
+
+
 
 
 }

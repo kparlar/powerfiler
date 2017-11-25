@@ -57,9 +57,9 @@ public class ConnectionDataController extends AbstractPowerfilerDataController<C
             notes = "Deletes Meter according to given ConnectionId and Month. Also delete HasMeter relation")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Entity with id is found and deleted"),
             @ApiResponse(code = 404, message = "Entity is not found or invalid, no delete occured.")})
-    public ResponseEntity deleteMeter(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
-        connectionOperation.deleteMeter(connectionId, month);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<ValidationDto> deleteMeter(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
+
+        return new ResponseEntity<>(connectionOperation.deleteMeter(connectionId, month), HttpStatus.OK);
 
     }
 
@@ -92,10 +92,8 @@ public class ConnectionDataController extends AbstractPowerfilerDataController<C
             notes = "Deletes Fraction according to given ConnectionId and Month. Also delete HasFraction relation")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Entity with id is found and deleted"),
             @ApiResponse(code = 404, message = "Entity is not found or invalid, no delete occured.")})
-    public ResponseEntity deleteFraction(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
-        connectionOperation.deleteFraction(connectionId, month);
-        return new ResponseEntity<>(HttpStatus.OK);
-
+    public ResponseEntity<ValidationDto> deleteFraction(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
+        return new ResponseEntity<>(connectionOperation.deleteFraction(connectionId, month), HttpStatus.OK);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})

@@ -4,9 +4,8 @@ public class FractionDto extends FractionValueDto{
     private String profile;
 
     public FractionDto(String profile, String month, String fraction){
+        super(month, fraction);
         this.profile = profile;
-        this.setFraction(fraction);
-        this.setMonth(month);
     }
 
     public String getProfile() {

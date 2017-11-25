@@ -1,12 +1,16 @@
 package com.ph.powerfiler.operation;
 
 import com.ph.powerfiler.model.dto.FractionDto;
+import com.ph.powerfiler.model.dto.ValidationDto;
 import com.ph.powerfiler.model.entity.Connection;
 import com.ph.powerfiler.model.entity.Fraction;
+import com.ph.powerfiler.operation.rule.SumFractionRule;
 import com.ph.powerfiler.repository.FractionRepository;
-import com.ph.powerfiler.util.PowerfilerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class FractionOperation {
@@ -36,7 +40,7 @@ public class FractionOperation {
 
 
     public boolean delete(String id) {
-        Fraction fraction  = get(id);
+        Fraction fraction  = getFraction(id);
         if(fraction!=null){
             hasFractionOperation.deleteAll(fraction);
             fractionRepository.delete(fraction);
@@ -46,7 +50,22 @@ public class FractionOperation {
         }
     }
 
-    public Fraction get(String id){
+    public List<ValidationDto> validateFraction(String connectionId, Double fractionValue, List<Fraction> fractions, String profileName) {
+        double totalFraction = 0;
+        for(Fraction fractionInner: fractions){
+            totalFraction+=fractionInner.getFraction();
+        }
+        totalFraction+=fractionValue;
+        totalFraction = Math.round(totalFraction * 100) / 100;
+
+        List<ValidationDto> validationDtos = new ArrayList<>();
+        SumFractionRule sumFractionRule = new SumFractionRule(profileName, connectionId, totalFraction);
+        sumFractionRule.validate();
+        validationDtos.addAll(sumFractionRule.getValidationDtos());
+        return validationDtos;
+    }
+
+    public Fraction getFraction(String id){
         return fractionRepository.findOne(id);
     }
     public Fraction update(Fraction fraction) {

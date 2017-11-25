@@ -1,6 +1,6 @@
 package com.ph.powerfiler.operation;
 
-import com.ph.powerfiler.exception.ExceptionMessageCodeConstants;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.dto.ValidationDto;
 import com.ph.powerfiler.model.entity.Connection;
@@ -61,7 +61,7 @@ public class MeterOperation {
         String previousMonth = powerfilerUtil.findPreviousMonth(meterDto.getMonth());
         String nextMonth = powerfilerUtil.findNextMonth(meterDto.getMonth());
         if(previousMonth == null && nextMonth == null){
-            ValidationDto validationDto = new ValidationDto(ExceptionMessageCodeConstants.NEXT_PREVIOUS_MONTH_NOT_FOUND_EXCEPTION_MESSAGE, ExceptionMessageCodeConstants.NEXT_PREVIOUS_MONTH_NOT_FOUND_EXCEPTION_CODE);
+            ValidationDto validationDto = new ValidationDto(MessageCodeConstants.NEXT_PREVIOUS_MONTH_NOT_FOUND_EXCEPTION_MESSAGE, MessageCodeConstants.NEXT_PREVIOUS_MONTH_NOT_FOUND_EXCEPTION_CODE);
             validationDtos.add(validationDto);
             return validationDtos;
         }

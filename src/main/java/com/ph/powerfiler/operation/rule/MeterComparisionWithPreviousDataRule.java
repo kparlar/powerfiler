@@ -1,19 +1,22 @@
 package com.ph.powerfiler.operation.rule;
 
-import com.ph.powerfiler.exception.ExceptionMessageCodeConstants;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.dto.ValidationDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MeterComparisionWithPreviousDataRule implements IRule {
 
    private MeterDto meterDto;
    private MeterDto meterDtoPrevious;
+   private List<ValidationDto> validationDtos;
 
    public MeterComparisionWithPreviousDataRule(MeterDto meterDto, MeterDto meterDtoPrevious){
     this.meterDto = meterDto;
     this.meterDtoPrevious = meterDtoPrevious;
+    this.validationDtos = new ArrayList<>();
    }
 
     @Override
@@ -38,7 +41,7 @@ public class MeterComparisionWithPreviousDataRule implements IRule {
            Long previousReading = Long.parseLong((meterDtoPrevious.getMeterReading()));
            if (previousReading > currentReading) {
                ValidationDto validationDto = new ValidationDto(
-                       String.format(ExceptionMessageCodeConstants.METER_HAS_TO_BE_BIGGER_OR_EQ_TO_PREVIOUS_READING_EXCEPTION_MESSAGE, "Meter", meterDto.getProfile(), meterDto.getConnectionId(), meterDto.getMonth()), ExceptionMessageCodeConstants.METER_HAS_TO_BE_BIGGER_OR_EQ_TO_PREVIOUS_READING_EXCEPTION_CODE);
+                       String.format(MessageCodeConstants.METER_HAS_TO_BE_BIGGER_OR_EQ_TO_PREVIOUS_READING_EXCEPTION_MESSAGE, "Meter", meterDto.getProfile(), meterDto.getConnectionId(), meterDto.getMonth()), MessageCodeConstants.METER_HAS_TO_BE_BIGGER_OR_EQ_TO_PREVIOUS_READING_EXCEPTION_CODE);
                addValidationDto(validationDto);
            }
        }

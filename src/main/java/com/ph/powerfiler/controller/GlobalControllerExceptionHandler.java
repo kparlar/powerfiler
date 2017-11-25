@@ -1,7 +1,7 @@
 package com.ph.powerfiler.controller;
 
 import com.ph.powerfiler.exception.ExceptionMessage;
-import com.ph.powerfiler.exception.ExceptionMessageCodeConstants;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.exception.PowerfilerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
         ExceptionMessage exceptionMessage = new ExceptionMessage();
         String exceptionId = UUID.randomUUID().toString();
         exceptionMessage.getErrors().add(exceptionId + "-" + e.getMessage());
-        log.error(ExceptionMessageCodeConstants.REST_CLIENT_EXCEPTION_MESSAGE, ExceptionMessageCodeConstants.REST_CLIENT_EXCEPTION_CODE, exceptionId,  e);
+        log.error(MessageCodeConstants.REST_CLIENT_EXCEPTION_MESSAGE, MessageCodeConstants.REST_CLIENT_EXCEPTION_CODE, exceptionId,  e);
         return new ResponseEntity<>(exceptionMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

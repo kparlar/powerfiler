@@ -4,8 +4,9 @@ public class PowerfilerTestConstants {
 
     public static String CONNECTION_ID_0001= "0001";
     public static String CONNECTION_ID_NOT_VALID= "-0001";
-    public static String FRACTION_JAN="0.01";
-    public static String FRACTION_FEB="0.01";
+    public static String FRACTION_JAN="0.083";
+    public static String FRACTION_FEB="0.083";
+    public static String ID = "TEMP_ID";
     public static String METER_READING_JAN="1";
     public static String METER_READING_FEB="2";
     public static String MONTH_JAN = "JAN";

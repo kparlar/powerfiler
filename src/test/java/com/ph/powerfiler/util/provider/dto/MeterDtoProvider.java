@@ -1,6 +1,7 @@
 package com.ph.powerfiler.util.provider.dto;
 
 import com.ph.powerfiler.model.dto.MeterDto;
+import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.util.PowerfilerTestConstants;
 
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ public class MeterDtoProvider {
         List<MeterDto> meterDtos = new ArrayList<>();
         MeterDto meterDto = createMeterDtoWithMonthJAN();
         meterDtos.add(meterDto);
+        return meterDtos;
+    }
+    public MeterDto[] createMeterDtoArray(){
+        MeterDto meterDto = createMeterDtoWithMonthJAN();
+        MeterDto[] meterDtos = new MeterDto[]{meterDto};
         return meterDtos;
     }
 }

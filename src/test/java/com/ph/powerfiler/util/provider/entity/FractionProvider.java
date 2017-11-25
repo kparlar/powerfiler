@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FractionProvider {
 
-    public Fraction createFraction(){
+    public Fraction createFractionWithMonthJAN(){
         Fraction fraction = new Fraction();
         fraction.setFraction(Double.parseDouble(PowerfilerTestConstants.FRACTION_JAN));
         fraction.setMonth(PowerfilerTestConstants.MONTH_JAN);
@@ -18,8 +18,18 @@ public class FractionProvider {
     }
     public List<Fraction> createFractions(){
         List<Fraction> fractions = new ArrayList<>();
-        Fraction fraction = createFraction();
+        Fraction fraction = createFractionWithMonthJAN();
         fractions.add(fraction);
+        return fractions;
+
+    }
+    public List<Fraction> createFractionsWithValidFractionTotal(){
+        List<Fraction> fractions = new ArrayList<>();
+
+        for(int i = 0;i<12;i++) {
+            Fraction fraction = createFractionWithMonthJAN();
+            fractions.add(fraction);
+        }
         return fractions;
 
     }

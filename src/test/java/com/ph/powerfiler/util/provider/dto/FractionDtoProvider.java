@@ -17,4 +17,10 @@ public class FractionDtoProvider {
         fractionDtos.add(fractionDto);
         return fractionDtos;
     }
+
+    public FractionDto[] createFractionDtoArray(){
+        FractionDto fractionDto = createFractionDto();
+        FractionDto[] fractionDtos = new FractionDto[]{fractionDto};
+        return fractionDtos;
+    }
 }

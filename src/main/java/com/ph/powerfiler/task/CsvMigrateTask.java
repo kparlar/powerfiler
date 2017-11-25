@@ -1,12 +1,11 @@
 package com.ph.powerfiler.task;
 
 import com.ph.powerfiler.exception.ExceptionMessage;
-import com.ph.powerfiler.exception.ExceptionMessageCodeConstants;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.ConnectionsDto;
 import com.ph.powerfiler.model.dto.FractionDto;
 import com.ph.powerfiler.model.dto.MeterDto;
-import com.ph.powerfiler.model.entity.Fraction;
 import com.ph.powerfiler.operation.ConnectionOperation;
 import com.ph.powerfiler.util.*;
 import org.apache.commons.csv.CSVFormat;
@@ -23,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -102,11 +100,11 @@ public class CsvMigrateTask {
         try {
             return readFromCsv(file, true);
         } catch (IOException e) {
-            log.error(ExceptionMessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE
+            log.error(MessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE
                     + e);
             throw new PowerfilerException(
-                    ExceptionMessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE,
-                    ExceptionMessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE_ERROR_CODE,
+                    MessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE,
+                    MessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE_ERROR_CODE,
                     true);
 
         }

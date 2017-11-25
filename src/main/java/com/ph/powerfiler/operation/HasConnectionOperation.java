@@ -13,6 +13,8 @@ public class HasConnectionOperation {
     private HasConnectionRepository hasConnectionRepository;
 
 
+
+
     public HasConnection save(Profile profile, Connection connection){
         HasConnection hasConnection = new HasConnection();
         hasConnection.setFromProfile(profile);

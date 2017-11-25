@@ -12,6 +12,7 @@ public class MeterProvider {
         Meter meter  = new Meter();
         meter.setReading(Long.parseLong(PowerfilerTestConstants.METER_READING_JAN));
         meter.setMonth(PowerfilerTestConstants.MONTH_JAN);
+        meter.setId(PowerfilerTestConstants.ID);
         return meter;
     }
     public Meter createMeterWithMonthFEB(){
