@@ -1,8 +1,9 @@
 package com.ph.powerfiler.operation;
 
-import com.ph.powerfiler.model.entity.*;
+import com.ph.powerfiler.model.entity.Connection;
+import com.ph.powerfiler.model.entity.Fraction;
+import com.ph.powerfiler.model.entity.HasFraction;
 import com.ph.powerfiler.repository.HasFractionRepository;
-import com.ph.powerfiler.repository.HasMeterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

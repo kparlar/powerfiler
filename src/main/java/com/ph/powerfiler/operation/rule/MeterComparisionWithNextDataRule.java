@@ -1,8 +1,8 @@
 package com.ph.powerfiler.operation.rule;
 
-import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.dto.ValidationDto;
+import com.ph.powerfiler.util.MessageCodeConstants;
 
 import java.util.ArrayList;
 import java.util.List;

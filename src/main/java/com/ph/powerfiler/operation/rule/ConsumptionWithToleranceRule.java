@@ -1,8 +1,8 @@
 package com.ph.powerfiler.operation.rule;
 
-import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.dto.ValidationDto;
+import com.ph.powerfiler.util.MessageCodeConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class ConsumptionWithToleranceRule implements IRule {
     @Override
     public void validate() {
         Long currentReading = Long.parseLong(this.meterDto.getMeterReading());
-        double consumption = currentReading - this.previousReading;
+        double consumption = Double.parseDouble(currentReading.toString()) - this.previousReading;
         double monthlyConsumption = this.totalConsumption * this.fraction;
         double toleranceValue = monthlyConsumption * Double.parseDouble("0.25");
         double monthlyCounsumptionUpperLimit = monthlyConsumption + toleranceValue;

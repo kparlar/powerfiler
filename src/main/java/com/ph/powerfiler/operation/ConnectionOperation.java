@@ -1,22 +1,20 @@
 package com.ph.powerfiler.operation;
 
 import com.ph.powerfiler.exception.ExceptionMessage;
-import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.*;
 import com.ph.powerfiler.model.entity.Connection;
 import com.ph.powerfiler.model.entity.Fraction;
 import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.model.entity.Profile;
-import com.ph.powerfiler.operation.rule.SumFractionRule;
 import com.ph.powerfiler.repository.ConnectionRepository;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.util.PowerfilerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -4,7 +4,6 @@ import com.ph.powerfiler.model.dto.ConnectionTreeMapDto;
 import com.ph.powerfiler.model.dto.FractionDto;
 import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.entity.Connection;
-import com.ph.powerfiler.model.entity.HasConnection;
 import com.ph.powerfiler.model.entity.Profile;
 import com.ph.powerfiler.repository.ProfileRepository;
 import com.ph.powerfiler.util.PowerfilerConstants;

@@ -1,6 +1,5 @@
 package com.ph.powerfiler.operation;
 
-import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.dto.ValidationDto;
 import com.ph.powerfiler.model.entity.Connection;
@@ -8,6 +7,7 @@ import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.operation.rule.MeterComparisionWithNextDataRule;
 import com.ph.powerfiler.operation.rule.MeterComparisionWithPreviousDataRule;
 import com.ph.powerfiler.repository.MeterRepository;
+import com.ph.powerfiler.util.MessageCodeConstants;
 import com.ph.powerfiler.util.PowerfilerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

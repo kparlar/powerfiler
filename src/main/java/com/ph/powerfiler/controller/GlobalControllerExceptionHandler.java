@@ -2,7 +2,6 @@ package com.ph.powerfiler.controller;
 
 import com.ph.powerfiler.exception.ExceptionMessage;
 import com.ph.powerfiler.util.MessageCodeConstants;
-import com.ph.powerfiler.exception.PowerfilerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

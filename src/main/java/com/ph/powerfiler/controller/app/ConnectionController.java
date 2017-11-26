@@ -7,17 +7,15 @@ import com.ph.powerfiler.model.dto.ProfileDto;
 import com.ph.powerfiler.model.entity.Fraction;
 import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.operation.ConnectionOperation;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
 
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class ConnectionController {
             @ApiResponse(code = 500, message = "Internal Server Error") })
     public ResponseEntity<ExceptionMessage> saveConnections(@RequestBody(required=true) List<ProfileDto> profileDtos){
         ExceptionMessage exceptionMessage = connectionOperation.saveConnections(profileDtos);
-        if(exceptionMessage.getErrors().size() > 0){
+        if(!exceptionMessage.getErrors().isEmpty()){
             return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
         }else{
             return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);

@@ -12,19 +12,6 @@ import java.util.List;
 @DiscriminatorValue(value = "PF_CONNECTION")
 public class Connection extends PowerfilerObject{
 
-
-    @Column(name = "CONNECTION_ID", length = 128)
-    private String connectionId;
-
-    public String getConnectionId() {
-        return connectionId;
-    }
-
-    public void setConnectionId(String connectionId) {
-        this.connectionId = connectionId;
-    }
-
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fromConnection")
     private List<HasMeter> hasMeters;
@@ -32,7 +19,6 @@ public class Connection extends PowerfilerObject{
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fromConnection")
     private List<HasFraction> hasFractions;
-
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
@@ -47,6 +33,20 @@ public class Connection extends PowerfilerObject{
             referencedColumnName = "ID")}, inverseJoinColumns = {@JoinColumn(name = "TO_ID",
             referencedColumnName = "ID")})
     private List<Fraction> fractions;
+
+    @Column(name = "CONNECTION_ID", length = 128)
+    private String connectionId;
+
+    public String getConnectionId() {
+        return connectionId;
+    }
+
+    public void setConnectionId(String connectionId) {
+        this.connectionId = connectionId;
+    }
+
+
+
 
     public List<HasMeter> getHasMeters() {
         return hasMeters;

@@ -2,7 +2,6 @@ package com.ph.powerfiler.operation.rule;
 
 import com.ph.powerfiler.model.dto.ValidationDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IRule {

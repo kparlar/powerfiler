@@ -4,14 +4,15 @@ import com.ph.powerfiler.model.dto.ValidationDto;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ExceptionMessage {
     private List<String> errors;
     private List<ValidationDto> validationDtos;
-
+    public ExceptionMessage() {
+        this.setErrors(new ArrayList<>());
+    }
 
     public void setValidationDtos(List<ValidationDto> validationDtos) {
         this.validationDtos = validationDtos;
@@ -21,14 +22,11 @@ public class ExceptionMessage {
         return validationDtos;
     }
 
-    public ExceptionMessage() {
-        this.setErrors(new ArrayList<>());
-    }
+
 
     public List<String> getErrors() {
         if(!CollectionUtils.isEmpty(validationDtos)){
-            List<String> errorMessage =  validationDtos.stream().map(x-> String.format("Code:%s;Message:%s",x.getCode(), x.getMessage())).collect(Collectors.toList());
-            return errorMessage;
+            return validationDtos.stream().map(x-> String.format("Code:%s;Message:%s",x.getCode(), x.getMessage())).collect(Collectors.toList());
         }else{
             return this.errors;
         }

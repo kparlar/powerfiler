@@ -1,7 +1,6 @@
 package com.ph.powerfiler.repository;
 
 import com.ph.powerfiler.model.entity.Meter;
-import com.ph.powerfiler.model.entity.Profile;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
