@@ -31,6 +31,7 @@ public class MeterComparisionWithPreviousDataRule implements IRule {
 
     @Override
     public void addValidationDto(ValidationDto validationDto) {
+       validationDtos.add(validationDto);
 
     }
 

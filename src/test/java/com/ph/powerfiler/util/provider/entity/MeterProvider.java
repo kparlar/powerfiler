@@ -1,5 +1,6 @@
 package com.ph.powerfiler.util.provider.entity;
 
+import com.ph.powerfiler.model.dto.MeterDto;
 import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.util.PowerfilerTestConstants;
 
@@ -19,6 +20,12 @@ public class MeterProvider {
         Meter meter  = new Meter();
         meter.setReading(Long.parseLong(PowerfilerTestConstants.METER_READING_FEB));
         meter.setMonth(PowerfilerTestConstants.MONTH_FEB);
+        return meter;
+    }
+    public Meter createMeterWithMonthNOV(){
+        Meter meter  = new Meter();
+        meter.setReading(Long.parseLong(PowerfilerTestConstants.METER_READING_NOV));
+        meter.setMonth(PowerfilerTestConstants.MONTH_NOV);
         return meter;
     }
     public List<Meter> createMeters(){

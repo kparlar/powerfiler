@@ -35,7 +35,7 @@ public class ProfileOperation {
             ConnectionTreeMapDto connectionTreeMapDto = connectionTreeMapDtoHashMap.get(profileConnectionArr[PowerfilerConstants.INDEX_CONNECTION]);
             Profile profile = save(profileConnectionArr[PowerfilerConstants.INDEX_PROFILE]);
             Connection connection = connectionOperation.save(connectionTreeMapDto.getConnectionId());
-            HasConnection hasConnection = hasConnectionOperation.save(profile, connection);
+            hasConnectionOperation.save(profile, connection);
             meterOperation.saveAndRelateWithConnection(connection, connectionTreeMapDto.getMeterDtos().values().toArray(new MeterDto[0]));
             fractionOperation.saveAndRelateWithConnection(connection, connectionTreeMapDto.getFractionDtos().values().toArray(new FractionDto[0]));
         }
