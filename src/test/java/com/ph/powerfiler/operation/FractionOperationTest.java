@@ -15,12 +15,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
-import sun.security.x509.FreshestCRLExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 
 public class FractionOperationTest {
@@ -111,4 +111,5 @@ public class FractionOperationTest {
         Fraction result = fractionOperation.update(fraction);
         Assert.assertTrue("Fraction is not same", fraction.getId().equalsIgnoreCase(result.getId()));
     }
+
 }

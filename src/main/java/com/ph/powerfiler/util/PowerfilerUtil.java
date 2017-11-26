@@ -1,6 +1,7 @@
 package com.ph.powerfiler.util;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.text.DateFormatSymbols;
@@ -11,6 +12,8 @@ public class PowerfilerUtil {
 
 
     public int convertMonthToInteger(String month){
+        if(month == null)
+            return -1;
 
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
@@ -25,6 +28,8 @@ public class PowerfilerUtil {
         return i;
     }
     public String convertCalendarMonthToDBMonth(String month){
+        if(month==null)
+            return null;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         for(String tempMonth: months){
@@ -44,6 +49,8 @@ public class PowerfilerUtil {
     }
 
     public String findPreviousMonth(String month){
+        if(month == null)
+            return null;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         int i=0;
@@ -61,6 +68,8 @@ public class PowerfilerUtil {
         return null;
     }
     public String findNextMonth(String month){
+        if(month == null)
+            return null;
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         int i=0;
@@ -79,6 +88,8 @@ public class PowerfilerUtil {
     }
 
     public File keptFile(File[] listOfFolders){
+        if(listOfFolders == null)
+            return null;
         File newFile;
         boolean isRenamed;
         for (int i = 0; i < listOfFolders.length; i++) {

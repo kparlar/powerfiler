@@ -1,11 +1,13 @@
 package com.ph.powerfiler.controller.data;
 
+import com.ph.powerfiler.exception.ExceptionMessage;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.FractionValueDto;
 import com.ph.powerfiler.model.dto.MeterValueDto;
 import com.ph.powerfiler.model.dto.ValidationDto;
 import com.ph.powerfiler.model.entity.Connection;
 import com.ph.powerfiler.operation.ConnectionOperation;
+import com.ph.powerfiler.operation.MeterOperation;
 import com.ph.powerfiler.repository.ConnectionRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -27,83 +29,118 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/data/powerfiler/v1/connections")
-public class ConnectionDataController extends AbstractPowerfilerDataController<Connection, String> {
+public class ConnectionDataController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private ConnectionOperation connectionOperation;
 
 
-    @Autowired
-    public ConnectionDataController(ConnectionRepository connectionRepository){
-        super(connectionRepository);
-    }
-
-
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})
     @RequestMapping(value = "/{connectionId}/meters",method = RequestMethod.PUT)
-    @ApiOperation(value = "Insert Connection Details", notes = "Saves Meter Readings")
+    @ApiOperation(value = "Insert Connection Details", notes = "Saves Meter Readings\n " +
+            "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error") })
-    public ResponseEntity<List<ValidationDto>> addMeter(@PathVariable(value = "connectionId") String connectionId, @RequestBody MeterValueDto meterValueDto) throws PowerfilerException {
-        logger.debug("create() with body {} of type {}", meterValueDto, meterValueDto.getClass());
-        return new ResponseEntity<>(connectionOperation.addMeter(connectionId, meterValueDto), HttpStatus.OK);
+    public ResponseEntity<ExceptionMessage> addMeter(@PathVariable(value = "connectionId") String connectionId, @RequestBody MeterValueDto meterValueDto) throws PowerfilerException {
+        ExceptionMessage exceptionMessage = connectionOperation.addMeter(connectionId, meterValueDto);
+        if(exceptionMessage.getErrors().size()>0){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})
     @RequestMapping(value = "/{connectionId}/meters/{month}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Delete Meter and delete HasMeter relation",
-            notes = "Deletes Meter according to given ConnectionId and Month. Also delete HasMeter relation")
+            notes = "Deletes Meter according to given ConnectionId and Month. Also delete HasMeter relation\n " +
+                    "If any internal error occured, GlobalControllerException " +
+                    "handler return 500 error with unique id")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Entity with id is found and deleted"),
-            @ApiResponse(code = 404, message = "Entity is not found or invalid, no delete occured.")})
-    public ResponseEntity<ValidationDto> deleteMeter(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    public ResponseEntity<ExceptionMessage> deleteMeter(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
+        ExceptionMessage exceptionMessage =connectionOperation.deleteMeter(connectionId, month);
+        if(exceptionMessage.getErrors().size()>0){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
 
-        return new ResponseEntity<>(connectionOperation.deleteMeter(connectionId, month), HttpStatus.OK);
 
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})
     @RequestMapping(value = "/{connectionId}/meters/{month}",method = RequestMethod.POST)
-    @ApiOperation(value = "Insert Connection Details", notes = "Update Meter Readings")
+    @ApiOperation(value = "Insert Connection Details", notes = "Update Meter Readings\n " +
+            "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error") })
-    public ResponseEntity<List<ValidationDto>> updateMeter(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month, @RequestBody String meterReading) throws PowerfilerException {
-        return new ResponseEntity<>(connectionOperation.updateMeter(connectionId, month, meterReading), HttpStatus.OK);
+    public ResponseEntity<ExceptionMessage> updateMeter(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month, @RequestBody String meterReading) throws PowerfilerException {
+        ExceptionMessage exceptionMessage = connectionOperation.updateMeter(connectionId, month, meterReading);
+        if(exceptionMessage.getErrors().size()>0){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})
     @RequestMapping(value = "/{connectionId}/fractions",method = RequestMethod.PUT)
-    @ApiOperation(value = "Insert Connection Details", notes = "Saves Fraction to H2")
+    @ApiOperation(value = "Insert Connection Details", notes = "Saves Fraction to H2\n " +
+            "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error") })
-    public ResponseEntity<List<ValidationDto>> addFraction(@PathVariable(value = "connectionId") String connectionId, @RequestBody FractionValueDto fractionValueDto) throws PowerfilerException {
-        logger.debug("create() with body {} of type {}", fractionValueDto, fractionValueDto.getClass());
-        return new ResponseEntity<>(connectionOperation.addFraction(connectionId, fractionValueDto), HttpStatus.OK);
+    public ResponseEntity<ExceptionMessage> addFraction(@PathVariable(value = "connectionId") String connectionId, @RequestBody FractionValueDto fractionValueDto) throws PowerfilerException {
+        ExceptionMessage exceptionMessage = connectionOperation.addFraction(connectionId, fractionValueDto);
+        if(exceptionMessage.getErrors().size()>0){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})
     @RequestMapping(value = "/{connectionId}/fractions/{month}", method = RequestMethod.DELETE)
     @ApiOperation(value = "Delete Fraction and delete HasFraction relation",
-            notes = "Deletes Fraction according to given ConnectionId and Month. Also delete HasFraction relation")
+            notes = "Deletes Fraction according to given ConnectionId and Month. Also delete HasFraction relation\n " +
+                    "If any internal error occured, GlobalControllerException " +
+                    "handler return 500 error with unique id")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Entity with id is found and deleted"),
             @ApiResponse(code = 404, message = "Entity is not found or invalid, no delete occured.")})
-    public ResponseEntity<ValidationDto> deleteFraction(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
-        return new ResponseEntity<>(connectionOperation.deleteFraction(connectionId, month), HttpStatus.OK);
+    public ResponseEntity<ExceptionMessage> deleteFraction(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month) throws PowerfilerException {
+        ExceptionMessage exceptionMessage = connectionOperation.deleteFraction(connectionId, month);
+        if(exceptionMessage.getErrors().size()>0){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {PowerfilerException.class})
     @RequestMapping(value = "/{connectionId}/fractions/{month}",method = RequestMethod.POST)
-    @ApiOperation(value = "Insert Connection Details", notes = "Update Fraction Readings")
+    @ApiOperation(value = "Insert Connection Details", notes = "Update Fraction Readings\n " +
+            "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error") })
-    public ResponseEntity<List<ValidationDto>> updateFraction(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month, @RequestBody String fraction) throws PowerfilerException {
-        return new ResponseEntity<>(connectionOperation.updateFraction(connectionId, month, fraction), HttpStatus.OK);
+    public ResponseEntity<ExceptionMessage> updateFraction(@PathVariable(value = "connectionId") String connectionId, @PathVariable(value = "month") String month, @RequestBody String fraction) throws PowerfilerException {
+        ExceptionMessage exceptionMessage = connectionOperation.updateFraction(connectionId, month, fraction);
+        if(exceptionMessage.getErrors().size()>0){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
     }
 }

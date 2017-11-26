@@ -19,10 +19,6 @@ public class MeterComparisionWithNextDataRule implements IRule {
         this.validationDtos = new ArrayList<>();
     }
 
-    @Override
-    public boolean isValid() {
-        return false;
-    }
 
     @Override
     public List<ValidationDto> getValidationDtos() {

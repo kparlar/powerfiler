@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface IRule {
 
-    boolean isValid();
     List<ValidationDto> getValidationDtos();
     void addValidationDto(ValidationDto validationDto);
     void validate();

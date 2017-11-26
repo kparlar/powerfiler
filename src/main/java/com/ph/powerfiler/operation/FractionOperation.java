@@ -68,7 +68,9 @@ public class FractionOperation {
     public Fraction getFraction(String id){
         return fractionRepository.findOne(id);
     }
+
     public Fraction update(Fraction fraction) {
         return fractionRepository.save(fraction);
     }
+
 }

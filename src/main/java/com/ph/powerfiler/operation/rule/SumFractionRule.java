@@ -8,7 +8,6 @@ import java.util.List;
 
 public class SumFractionRule implements IRule {
 
-    boolean isValid;
     private double totalFraction;
     private String profile;
     private String connectionId;
@@ -23,12 +22,6 @@ public class SumFractionRule implements IRule {
 
 
     }
-
-    @Override
-    public boolean isValid() {
-        return isValid;
-    }
-
     @Override
     public List<ValidationDto> getValidationDtos() {
         return validationDtos;

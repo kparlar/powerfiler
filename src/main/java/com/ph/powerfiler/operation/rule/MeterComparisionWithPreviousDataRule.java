@@ -20,11 +20,6 @@ public class MeterComparisionWithPreviousDataRule implements IRule {
    }
 
     @Override
-    public boolean isValid() {
-        return false;
-    }
-
-    @Override
     public List<ValidationDto> getValidationDtos() {
         return validationDtos;
     }

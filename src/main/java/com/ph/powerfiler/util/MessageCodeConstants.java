@@ -43,6 +43,13 @@ public class MessageCodeConstants {
 
     public static final String DATA_SENT_EMPTY_ERROR_MESSAGE = "%s data is sent empty or null";
     public static final String DATA_SENT_EMPTY_ERROR_CODE = "EX014";
+
+
+    public static final String FILE_NOT_CREATED_ERROR_MESSAGE = "File %s is not created";
+    public static final String FILE_NOT_CREATED_ERROR_CODE = "EX015";
+
+    public static final String FILE_NOT_DELETED_ERROR_MESSAGE = "File %s is not deleted";
+    public static final String FILE_NOT_DELETED_ERROR_CODE = "EX016";
     
     
     

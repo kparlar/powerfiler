@@ -10,14 +10,26 @@ import java.util.TreeMap;
 
 public class ConnectionTreeMapDtoProvider {
 
-    public ConnectionTreeMapDto createConnectionTreeMapDto(){
+    public ConnectionTreeMapDto createValidConnectionTreeMapDto(){
         ConnectionTreeMapDto connectionTreeMapDto = new ConnectionTreeMapDto();
         connectionTreeMapDto.setConnectionId(PowerfilerTestConstants.CONNECTION_ID_0001);
         MeterDtoProvider meterDtoProvider = new MeterDtoProvider();
-        TreeMap<Integer, MeterDto> treeMapMeterDto = meterDtoProvider.createTreeMapMeterDto();
+        TreeMap<Integer, MeterDto> treeMapMeterDto = meterDtoProvider.createValidTreeMapMeterDto();
         connectionTreeMapDto.setMeterDtos(treeMapMeterDto);
         FractionDtoProvider fractionDtoProvider = new FractionDtoProvider();
-        TreeMap<Integer, FractionDto> treeMapFractionDto = fractionDtoProvider.createTreeMapFractionDto();
+        TreeMap<Integer, FractionDto> treeMapFractionDto = fractionDtoProvider.createValidTreeMapFractionDto();
+        connectionTreeMapDto.setFractionDtos(treeMapFractionDto);
+        return connectionTreeMapDto;
+    }
+
+    public ConnectionTreeMapDto createNotValidConnectionTreeMapDto(){
+        ConnectionTreeMapDto connectionTreeMapDto = new ConnectionTreeMapDto();
+        connectionTreeMapDto.setConnectionId(PowerfilerTestConstants.CONNECTION_ID_0001);
+        MeterDtoProvider meterDtoProvider = new MeterDtoProvider();
+        TreeMap<Integer, MeterDto> treeMapMeterDto = meterDtoProvider.createNotValidTreeMapMeterDto();
+        connectionTreeMapDto.setMeterDtos(treeMapMeterDto);
+        FractionDtoProvider fractionDtoProvider = new FractionDtoProvider();
+        TreeMap<Integer, FractionDto> treeMapFractionDto = fractionDtoProvider.createNotValidTreeMapFractionDto();
         connectionTreeMapDto.setFractionDtos(treeMapFractionDto);
         return connectionTreeMapDto;
     }

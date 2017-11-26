@@ -17,6 +17,10 @@ public class ExceptionMessage {
         this.validationDtos = validationDtos;
     }
 
+    public List<ValidationDto> getValidationDtos() {
+        return validationDtos;
+    }
+
     public ExceptionMessage() {
         this.setErrors(new ArrayList<>());
     }

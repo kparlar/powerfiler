@@ -9,6 +9,7 @@ public class ProfileProvider {
     public Profile createProfileWithoutConnections(){
         Profile profile = new Profile();
         profile.setName(PowerfilerTestConstants.PROFILE_A);
+        profile.setId(PowerfilerTestConstants.ID);
         return profile;
     }
 }

@@ -14,6 +14,7 @@ public class FractionProvider {
         Fraction fraction = new Fraction();
         fraction.setFraction(Double.parseDouble(PowerfilerTestConstants.FRACTION_JAN));
         fraction.setMonth(PowerfilerTestConstants.MONTH_JAN);
+        fraction.setId(PowerfilerTestConstants.ID);
         return fraction;
     }
     public List<Fraction> createFractions(){

@@ -28,26 +28,6 @@ public class GlobalControllerExceptionHandler extends ResponseEntityExceptionHan
         log.error("java.lang.exception with id " + exceptionId, e);
         return new ResponseEntity<>(exceptionMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler(PowerfilerException.class)
-    protected ResponseEntity<ExceptionMessage> handleCnfException(PowerfilerException e) {
-            ExceptionMessage exceptionMessage = new ExceptionMessage();
-        String exceptionId = UUID.randomUUID().toString();
-        if (e.isShowMessage()) {
-            exceptionMessage.getErrors().add(exceptionId + "-" + e.getErrorMessage());
-        } else {
-            exceptionMessage.getErrors().add(exceptionId + "-" + e.getErrorCode());
-        }
-        log.error("com.ph.powerfiler.exception.PowerfilerException: with id" + exceptionId, e.toString());
-        if (e.getCarriedOverException() != null) {
-            log.error("Carried over Exception of PowerfilerException with id " + exceptionId,
-                    e.getCarriedOverException());
-        }
-        HttpStatus status = e.getStatus();
-        if (status == null) {
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<>(exceptionMessage, status);
-    }
 
     @ExceptionHandler(RestClientException.class)
     protected ResponseEntity<ExceptionMessage> handleRestClientException(RestClientException e) {

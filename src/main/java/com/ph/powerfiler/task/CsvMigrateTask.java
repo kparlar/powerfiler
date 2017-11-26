@@ -39,13 +39,15 @@ public class CsvMigrateTask {
     private ConnectionOperation connectionOperation;
 
 
+    public String getRootFolder() {
+        return rootFolder;
+    }
+
+    public void setRootFolder(String rootFolder) {
+        this.rootFolder = rootFolder;
+    }
 
 
-    /**
-     * This task works at every pre-defined seconds. property variable used
-     * directly because if we get it from cnfServiceProperties it gives static
-     * final error
-     */
     @Scheduled(fixedDelayString = "${powerfiler.csv-migrate-task.schedule.read-rate}", initialDelay = 1000)
     public void fileCheckSchedule() {
         processCsvFiles();
@@ -73,7 +75,7 @@ public class CsvMigrateTask {
                 keptFile.delete();
             }
         } catch (PowerfilerException e) {
-            log.error("Error occured",e);
+            log.error("Error occured");
         }
 
 
@@ -87,10 +89,6 @@ public class CsvMigrateTask {
 
         File folder = new File(rootFolder);
         File[] listOfFolders = folder.listFiles(new KeptCsvFileFilter());
-        if (listOfFolders == null) {
-            log.error("Temp folder is empty");
-            return new File[]{};
-        }
         return listOfFolders;
     }
 
@@ -116,8 +114,15 @@ public class CsvMigrateTask {
          Reader in = new FileReader(file);
         Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
         List<List<String>> datas = null;
-        ConnectionsDto connectionsDto = processCsvMeterContent(records);
-        in.close();
+        ConnectionsDto connectionsDto = null;
+        try{
+        connectionsDto = processCsvMeterContent(records);
+        }catch(Exception ex){
+            throw new PowerfilerException(MessageCodeConstants.CSV_FILE_DATA_FORMAT_ERROR, MessageCodeConstants.CSV_FILE_DATA_FORMAT_ERROR, ex, true);
+        }finally {
+            in.close();
+        }
+
         return connectionsDto;
     }
 
@@ -130,38 +135,28 @@ public class CsvMigrateTask {
         ConnectionsDto connectionsDto = new ConnectionsDto(meterDtos, fractionDtos);
         boolean parseMeter = false;
         boolean parseFraction = false;
-        for (CSVRecord record : records) {
-            if(record.get(0).equalsIgnoreCase("CONNECTION_ID")){
+            for (CSVRecord record : records) {
+                if(record.get(0).equalsIgnoreCase("CONNECTION_ID")){
                     parseMeter = true;
                     parseFraction = false;
                     continue;
-            }
-            if(record.get(0).equalsIgnoreCase("MONTH")){
-                parseMeter = false;
-                parseFraction = true;
-                continue;
+                }
+                if(record.get(0).equalsIgnoreCase("MONTH")){
+                    parseMeter = false;
+                    parseFraction = true;
+                    continue;
+                }
+
+                if(parseMeter)
+                    meterDtos.add(processCsvMeterRows(record));
+                if(parseFraction)
+                    fractionDtos.add(processCsvFractionRows(record));
             }
 
-            if(parseMeter)
-                meterDtos.add(processCsvMeterRows(record));
-            if(parseFraction)
-                fractionDtos.add(processCsvFractionRows(record));
-        }
+
         return connectionsDto;
     }
-
-    private List<FractionDto> processCsvFractionContent(Iterable<CSVRecord> records)
-            throws PowerfilerException {
-        List<FractionDto> fractionDatas = new ArrayList<>();
-        for (CSVRecord record : records) {
-            fractionDatas.add(processCsvFractionRows(record));
-
-        }
-        return fractionDatas;
-    }
-
-
-    private MeterDto processCsvMeterRows(CSVRecord record) throws PowerfilerException {
+    private MeterDto processCsvMeterRows(CSVRecord record){
         return new MeterDto(
                 record.get(CsvMeterData.CONNECTION_ID.cellOrder()),
                 record.get(CsvMeterData.PROFILE.cellOrder()),
@@ -170,7 +165,7 @@ public class CsvMigrateTask {
                 );
 
     }
-    private FractionDto processCsvFractionRows(CSVRecord record) throws PowerfilerException {
+    private FractionDto processCsvFractionRows(CSVRecord record){
 
         return new FractionDto(
                 record.get(CsvFractionData.PROFILE.cellOrder()),
