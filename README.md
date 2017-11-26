@@ -1,6 +1,11 @@
 # Powerfiler
 Spring Boot Test Project with Unit Test Coverage.
 This is an example project for implementing a given use cases.
+I have given a name Powerfiler, cause it is a profiler project for 
+an given power and gas energy consumption use case. So Power & Profiler
+combination Powerfiler fits to this application.
+
+Have fun.
 
 
 
