@@ -4,7 +4,9 @@ public class MeterDto extends MeterValueDto{
 
     private String connectionId;
     private String profile;
+    public MeterDto(){
 
+    }
     public MeterDto(String connectionId, String profile, String month, String meterReading){
         super(month, meterReading);
         this.connectionId = connectionId;

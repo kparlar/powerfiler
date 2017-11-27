@@ -1,11 +1,16 @@
 package com.ph.powerfiler.model.dto;
 
+import com.ph.powerfiler.model.entity.Profile;
+
 import java.util.List;
 
 public class ProfileDto {
 
     String profile;
     List<ConnectionDto> connectionDtos;
+    public ProfileDto(){
+
+    }
     public ProfileDto(String profile, List<ConnectionDto> connectionDtos){
         this.profile = profile;
         this.connectionDtos = connectionDtos;

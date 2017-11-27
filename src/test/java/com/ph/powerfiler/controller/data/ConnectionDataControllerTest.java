@@ -4,6 +4,9 @@ import com.ph.powerfiler.exception.ExceptionMessage;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.FractionValueDto;
 import com.ph.powerfiler.model.dto.MeterValueDto;
+import com.ph.powerfiler.model.dto.ProfileDto;
+import com.ph.powerfiler.model.entity.Fraction;
+import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.operation.ConnectionOperation;
 import com.ph.powerfiler.operation.MeterOperation;
 import com.ph.powerfiler.util.PowerfilerTestConstants;
@@ -19,9 +22,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -176,5 +181,36 @@ public class ConnectionDataControllerTest {
     public void updateFractionGivenNotValidDataWhenErrorInUpdatingFractionThenPowerfilerException() throws PowerfilerException {
         doThrow(PowerfilerException.class).when(connectionOperation).updateFraction(anyString(), anyString(), anyString());
         connectionDataController.updateFraction(PowerfilerTestConstants.CONNECTION_ID_0001, PowerfilerTestConstants.MONTH_JAN, PowerfilerTestConstants.METER_READING_JAN);
+    }
+
+    @Test
+    public void saveConnectionsGivenValidDataWhenSavingConnectionThenHttpStatusOK(){
+        when(connectionOperation.saveConnections(anyListOf(ProfileDto.class))).thenReturn(new ExceptionMessage());
+        ResponseEntity<ExceptionMessage> responseEntity = connectionDataController.saveConnections(new ArrayList<>());
+        Assert.assertTrue("No Exception Message is expecting and HttpStatus has to be OK", responseEntity.getBody().getErrors().size() == 0 && responseEntity.getStatusCode() == HttpStatus.OK);
+    }
+    @Test
+    public void saveConnectionsGivenValidDataWhenSavingConnectionThenHttpStatusBadRequest(){
+        ExceptionMessage exceptionMessage = exceptionMessageProvider.createExceptionMessage();
+        when(connectionOperation.saveConnections(anyListOf(ProfileDto.class))).thenReturn(exceptionMessage);
+        ResponseEntity<ExceptionMessage> responseEntity = connectionDataController.saveConnections(new ArrayList<>());
+        Assert.assertTrue("Exception Message is expecting and HttpStatus has to be Bad Request",
+                exceptionMessage.getErrors().get(0).equalsIgnoreCase(responseEntity.getBody().getErrors().get(0))
+                        && responseEntity.getStatusCode() == HttpStatus.BAD_REQUEST);
+    }
+    @Test
+    public void getMetersGivenValidDataWhenGettingMetersThenHttpStatusOK(){
+        when(connectionOperation.getMeters(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(new ArrayList<>());
+        ResponseEntity<List<Meter>> responseEntity = connectionDataController.getMeters(PowerfilerTestConstants.CONNECTION_ID_0001);
+        Assert.assertTrue("Empty List is expected and HttpStatus has to be OK", responseEntity.getBody().size() == 0 &&
+                responseEntity.getStatusCode() == HttpStatus.OK);
+
+    }
+    @Test
+    public void getFractionsGivenValidDataWwhenGettingFractionsThenHttpStatusOK(){
+        when(connectionOperation.getFractions(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(new ArrayList<>());
+        ResponseEntity<List<Fraction>> responseEntity = connectionDataController.getFractions(PowerfilerTestConstants.CONNECTION_ID_0001);
+        Assert.assertTrue("Empty List is expected and HttpStatus has to be OK", responseEntity.getBody().size() == 0 &&
+                responseEntity.getStatusCode() == HttpStatus.OK);
     }
 }

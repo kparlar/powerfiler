@@ -6,6 +6,9 @@ public class ConsumptionDto {
     String startMonth;
     String endMonth;
     String result;
+    public ConsumptionDto(){
+
+    }
     public ConsumptionDto(String connectionId, String startMonth, String endMonth, String result){
         this.connectionId = connectionId;
         this.startMonth = startMonth;

@@ -4,7 +4,9 @@ public class ConnectionDataDto extends MeterValueDto{
 
 
     String fraction;
+    public ConnectionDataDto(){
 
+    }
     public ConnectionDataDto(String month, String meterReading, String fraction) {
         super(month, meterReading);
         this.fraction = fraction;

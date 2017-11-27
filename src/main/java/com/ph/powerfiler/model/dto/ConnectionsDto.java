@@ -6,7 +6,9 @@ public class ConnectionsDto {
 
     private List<MeterDto> meterDtos;
     private List<FractionDto> fractionDtos;
+    public ConnectionsDto(){
 
+    }
     public ConnectionsDto(List<MeterDto> meterDtos, List<FractionDto> fractionDtos){
         this.meterDtos = meterDtos;
         this.fractionDtos = fractionDtos;

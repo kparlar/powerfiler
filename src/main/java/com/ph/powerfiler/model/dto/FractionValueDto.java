@@ -3,6 +3,9 @@ package com.ph.powerfiler.model.dto;
 public class FractionValueDto {
     private String month;
     private String fraction;
+    public FractionValueDto(){
+
+    }
     public FractionValueDto(String month, String fraction){
         this.month = month;
         this.fraction = fraction;

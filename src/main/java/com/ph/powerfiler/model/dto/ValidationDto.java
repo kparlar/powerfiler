@@ -4,7 +4,9 @@ public class ValidationDto {
 
     String message;
     String code;
+    public ValidationDto(){
 
+    }
     public ValidationDto(String message, String code){
         this.message = message;
         this.code = code;

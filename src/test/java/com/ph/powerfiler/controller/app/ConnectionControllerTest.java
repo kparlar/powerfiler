@@ -46,36 +46,7 @@ public class ConnectionControllerTest {
         consumptionDtoProvider = new ConsumptionDtoProvider();
     }
 
-    @Test
-    public void saveConnectionsGivenValidDataWhenSavingConnectionThenHttpStatusOK(){
-        when(connectionOperation.saveConnections(anyListOf(ProfileDto.class))).thenReturn(new ExceptionMessage());
-        ResponseEntity<ExceptionMessage> responseEntity = connectionController.saveConnections(new ArrayList<>());
-        Assert.assertTrue("No Exception Message is expecting and HttpStatus has to be OK", responseEntity.getBody().getErrors().size() == 0 && responseEntity.getStatusCode() == HttpStatus.OK);
-    }
-    @Test
-    public void saveConnectionsGivenValidDataWhenSavingConnectionThenHttpStatusBadRequest(){
-        ExceptionMessage exceptionMessage = exceptionMessageProvider.createExceptionMessage();
-        when(connectionOperation.saveConnections(anyListOf(ProfileDto.class))).thenReturn(exceptionMessage);
-        ResponseEntity<ExceptionMessage> responseEntity = connectionController.saveConnections(new ArrayList<>());
-        Assert.assertTrue("Exception Message is expecting and HttpStatus has to be Bad Request",
-                exceptionMessage.getErrors().get(0).equalsIgnoreCase(responseEntity.getBody().getErrors().get(0))
-                && responseEntity.getStatusCode() == HttpStatus.BAD_REQUEST);
-    }
-    @Test
-    public void getMetersGivenValidDataWhenGettingMetersThenHttpStatusOK(){
-        when(connectionOperation.getMeters(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(new ArrayList<>());
-        ResponseEntity<List<Meter>> responseEntity = connectionController.getMeters(PowerfilerTestConstants.CONNECTION_ID_0001);
-        Assert.assertTrue("Empty List is expected and HttpStatus has to be OK", responseEntity.getBody().size() == 0 &&
-                responseEntity.getStatusCode() == HttpStatus.OK);
 
-    }
-    @Test
-    public void getFractionsGivenValidDataWwhenGettingFractionsThenHttpStatusOK(){
-        when(connectionOperation.getFractions(eq(PowerfilerTestConstants.CONNECTION_ID_0001))).thenReturn(new ArrayList<>());
-        ResponseEntity<List<Fraction>> responseEntity = connectionController.getFractions(PowerfilerTestConstants.CONNECTION_ID_0001);
-        Assert.assertTrue("Empty List is expected and HttpStatus has to be OK", responseEntity.getBody().size() == 0 &&
-                responseEntity.getStatusCode() == HttpStatus.OK);
-    }
 
     @Test
     public void getConsumptionGivenValidDataWhenGettingConsumptionThenHttpStatusOK() throws PowerfilerException {

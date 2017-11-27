@@ -4,7 +4,9 @@ public class MeterValueDto {
 
     private String month;
     private String meterReading;
+    public MeterValueDto(){
 
+    }
     public MeterValueDto(String month, String meterReading){
         this.month = month;
         this.meterReading = meterReading;

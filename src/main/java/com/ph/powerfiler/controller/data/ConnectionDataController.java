@@ -4,6 +4,9 @@ import com.ph.powerfiler.exception.ExceptionMessage;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.FractionValueDto;
 import com.ph.powerfiler.model.dto.MeterValueDto;
+import com.ph.powerfiler.model.dto.ProfileDto;
+import com.ph.powerfiler.model.entity.Fraction;
+import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.operation.ConnectionOperation;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/data/powerfiler/v1/connections")
@@ -133,5 +138,46 @@ public class ConnectionDataController {
         }else{
             return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
         }
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {Exception.class})
+    @RequestMapping(method= RequestMethod.PUT)
+    @ApiOperation(value = "Insert Connection Details", notes = "Saves Meter Readings and Fractions to H2  " +
+            "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 500, message = "Internal Server Error") })
+    public ResponseEntity<ExceptionMessage> saveConnections(@RequestBody(required=true) List<ProfileDto> profileDtos){
+        ExceptionMessage exceptionMessage = connectionOperation.saveConnections(profileDtos);
+        if(!exceptionMessage.getErrors().isEmpty()){
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(exceptionMessage, HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "/{connectionId}/meters",method = RequestMethod.GET)
+    @ApiOperation(value = "Get Meters of Connection", notes = "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
+    @ApiResponses(value =
+            {@ApiResponse(code = 200, message = "Successfully get Meters of Connections"),
+                    @ApiResponse(code = 500, message = "Internal Server Error") })
+    public ResponseEntity<List<Meter>> getMeters(@PathVariable(value = "connectionId") String connectionId){
+
+        return new ResponseEntity<>(connectionOperation.getMeters(connectionId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{connectionId}/fractions",method = RequestMethod.GET)
+    @ApiOperation(value = "Get Fractions of Connection", notes = "If any internal error occured, GlobalControllerException " +
+            "handler return 500 error with unique id")
+    @ApiResponses(value =
+            {@ApiResponse(code = 200, message = "Successfully get Fractions of Connections"),
+                    @ApiResponse(code = 500, message = "Internal Server Error") })
+    public ResponseEntity<List<Fraction>> getFractions(@PathVariable(value = "connectionId") String connectionId){
+
+        return new ResponseEntity<>(connectionOperation.getFractions(connectionId), HttpStatus.OK);
     }
 }

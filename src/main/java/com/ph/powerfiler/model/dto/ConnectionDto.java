@@ -6,7 +6,9 @@ public class ConnectionDto {
 
     String connectionId;
     List<ConnectionDataDto> connectionDataDtos;
+    public ConnectionDto(){
 
+    }
     public ConnectionDto(String connectionId, List<ConnectionDataDto> connectionDataDtos){
         this.connectionId = connectionId;
         this.connectionDataDtos = connectionDataDtos;
