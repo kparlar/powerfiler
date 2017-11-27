@@ -1,0 +1,323 @@
+{
+	"id": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+	"name": "Powerfiler",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"name": "Connections",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"order": [],
+			"owner": 0,
+			"folders_order": [
+				"07efd0d8-a504-a661-94c3-b97b1e7891a0",
+				"8d96dfc4-e3c6-91b5-503a-e3dc289179b5"
+			],
+			"id": "47f250f7-f78f-d794-a99a-dd21c81ddb2b"
+		},
+		{
+			"name": "app",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"order": [
+				"21286512-ec4b-f8ef-4404-caa0915a53b6"
+			],
+			"owner": 0,
+			"folder": "47f250f7-f78f-d794-a99a-dd21c81ddb2b",
+			"folders_order": [],
+			"id": "8d96dfc4-e3c6-91b5-503a-e3dc289179b5"
+		},
+		{
+			"name": "data",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"order": [
+				"ac4f5756-bff5-52a8-926a-c9b3b69bafa0",
+				"6a4c0502-7b6f-268d-34f4-a00e3105733a",
+				"3c51e13b-7ec6-9903-48b9-925846c695d6",
+				"12e8e384-c3b5-3c31-5953-13aae31b50d4",
+				"cfe792cd-0863-ffee-18ce-1c1fc9f94bb2",
+				"f2eeea48-b043-f9d1-a1f3-9072df635b8a",
+				"6f551f11-3907-5def-2e43-a530fed4b908"
+			],
+			"owner": 0,
+			"folder": "47f250f7-f78f-d794-a99a-dd21c81ddb2b",
+			"folders_order": [],
+			"id": "07efd0d8-a504-a661-94c3-b97b1e7891a0"
+		}
+	],
+	"folders_order": [
+		"47f250f7-f78f-d794-a99a-dd21c81ddb2b"
+	],
+	"timestamp": 1511450743593,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "12e8e384-c3b5-3c31-5953-13aae31b50d4",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections/0001/meters/JAN",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511513223045,
+			"name": "Connection Meter",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "12e8e384-c3b5-3c31-5953-13aae31b50d4",
+			"rawModeData": ""
+		},
+		{
+			"id": "21286512-ec4b-f8ef-4404-caa0915a53b6",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/app/powerfiler/v1/connections/0001/consumption?startMonth=JANUARY&endMonth=MAY",
+			"folder": "8d96dfc4-e3c6-91b5-503a-e3dc289179b5",
+			"queryParams": [
+				{
+					"key": "startMonth",
+					"value": "JANUARY",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "endMonth",
+					"value": "MAY",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511506275874,
+			"name": "Consumption Given Start - End Month Interval",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "21286512-ec4b-f8ef-4404-caa0915a53b6",
+			"rawModeData": " \r\n \t\r\n \t[\r\n \t\t\t{\r\n \t\t\t\t\"profile\":\"A\",\r\n \t\t\t\t\"connectionDtos\":[\r\n \t\t\t\t\t{\r\n \t\t\t\t\t\t\"connectionId\":\"0001\",\r\n \t\t\t\t\t\t\"connectionDataDtos\":[\r\n \t\t\t\t\t\t\t{\r\n \t\t\t\t\t\t\t\t\"month\":\"JAN\",\r\n \t\t\t\t\t\t\t\t\"meterReading\":\"1\",\r\n \t\t\t\t\t\t\t\t\"fraction\":\"0.091\"\r\n \t\t\t\t\t\t\t},\r\n \t\t\t\t\t\t\t{\r\n \t\t\t\t\t\t\t\t\"month\":\"FEB\",\r\n \t\t\t\t\t\t\t\t\"meterReading\":\"2\",\r\n \t\t\t\t\t\t\t\t\"fraction\":\"0.091\"\r\n \t\t\t\t\t\t\t},\r\n \t\t\t\t\t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"MAR\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"3\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"APR\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"4\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"MAY\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"5\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"JUN\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"6\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"JUL\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"7\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"AUG\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"8\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"SEP\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"9\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"OCT\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"10\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"NOV\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"11\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"DEC\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"12\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t}\r\n\t\t\t\t \t\t]\r\n \t\t\t\t\t}\r\n \t\t\t\t]\r\n \t\t\t}\r\n\t]\r\n \t\t\t\r\n\r\n \r\n"
+		},
+		{
+			"id": "3c51e13b-7ec6-9903-48b9-925846c695d6",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections/0001/fractions",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511550074284,
+			"name": "Connection Fraction",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "3c51e13b-7ec6-9903-48b9-925846c695d6",
+			"rawModeData": " \t{\r\n \t\t\"month\":\"JAN\",\r\n \t\t\"fraction\":\"0.094\"\r\n \t}"
+		},
+		{
+			"id": "6a4c0502-7b6f-268d-34f4-a00e3105733a",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections/0001/meters",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511550925635,
+			"name": "Connection Meter",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "6a4c0502-7b6f-268d-34f4-a00e3105733a",
+			"rawModeData": " \t{\r\n \t\t\"month\":\"JAN\",\r\n \t\t\"meterReading\":\"1\"\r\n \t}"
+		},
+		{
+			"id": "6f551f11-3907-5def-2e43-a530fed4b908",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections/0001/fractions",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511740809644,
+			"name": "Connection Fractions",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"rawModeData": " \r\n \t\r\n \t[\r\n \t\t\t{\r\n \t\t\t\t\"profile\":\"A\",\r\n \t\t\t\t\"connectionDtos\":[\r\n \t\t\t\t\t{\r\n \t\t\t\t\t\t\"connectionId\":\"0001\",\r\n \t\t\t\t\t\t\"connectionDataDtos\":[\r\n \t\t\t\t\t\t\t{\r\n \t\t\t\t\t\t\t\t\"month\":\"JAN\",\r\n \t\t\t\t\t\t\t\t\"meterReading\":\"1\",\r\n \t\t\t\t\t\t\t\t\"fraction\":\"0.091\"\r\n \t\t\t\t\t\t\t},\r\n \t\t\t\t\t\t\t{\r\n \t\t\t\t\t\t\t\t\"month\":\"FEB\",\r\n \t\t\t\t\t\t\t\t\"meterReading\":\"2\",\r\n \t\t\t\t\t\t\t\t\"fraction\":\"0.091\"\r\n \t\t\t\t\t\t\t},\r\n \t\t\t\t\t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"MAR\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"3\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"APR\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"4\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"MAY\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"5\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"JUN\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"6\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"JUL\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"7\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"AUG\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"8\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"SEP\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"9\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"OCT\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"10\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"NOV\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"11\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"DEC\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"12\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t}\r\n\t\t\t\t \t\t]\r\n \t\t\t\t\t}\r\n \t\t\t\t]\r\n \t\t\t}\r\n\t]\r\n \t\t\t\r\n\r\n \r\n"
+		},
+		{
+			"id": "ac4f5756-bff5-52a8-926a-c9b3b69bafa0",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511740753056,
+			"name": "Connections",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"rawModeData": " [{\r\n \t\"profile\": \"A\",\r\n \t\"connectionDtos\": [{\r\n \t\t\"connectionId\": \"0001\",\r\n \t\t\"connectionDataDtos\": [{\r\n \t\t\t\t\"month\": \"JAN\",\r\n \t\t\t\t\"meterReading\": \"1\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"FEB\",\r\n \t\t\t\t\"meterReading\": \"2\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"MAR\",\r\n \t\t\t\t\"meterReading\": \"3\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"APR\",\r\n \t\t\t\t\"meterReading\": \"4\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"MAY\",\r\n \t\t\t\t\"meterReading\": \"5\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"JUN\",\r\n \t\t\t\t\"meterReading\": \"6\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"JUL\",\r\n \t\t\t\t\"meterReading\": \"7\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"AUG\",\r\n \t\t\t\t\"meterReading\": \"8\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"SEP\",\r\n \t\t\t\t\"meterReading\": \"9\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"OCT\",\r\n \t\t\t\t\"meterReading\": \"10\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"NOV\",\r\n \t\t\t\t\"meterReading\": \"11\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t},\r\n \t\t\t{\r\n \t\t\t\t\"month\": \"DEC\",\r\n \t\t\t\t\"meterReading\": \"12\",\r\n \t\t\t\t\"fraction\": \"0.091\"\r\n \t\t\t}\r\n \t\t]\r\n \t}]\r\n }]"
+		},
+		{
+			"id": "cfe792cd-0863-ffee-18ce-1c1fc9f94bb2",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections/0001/fractions/JAN",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511523160989,
+			"name": "Connection Fraction",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"isFromCollection": true,
+			"collectionRequestId": "cfe792cd-0863-ffee-18ce-1c1fc9f94bb2",
+			"rawModeData": ""
+		},
+		{
+			"id": "f2eeea48-b043-f9d1-a1f3-9072df635b8a",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8000/api/data/powerfiler/v1/connections/0001/meters",
+			"folder": "07efd0d8-a504-a661-94c3-b97b1e7891a0",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511740803643,
+			"name": "Connection Meters",
+			"description": "",
+			"collectionId": "4421564a-d417-3e4c-9c38-7bad8ca3f81c",
+			"responses": [],
+			"rawModeData": " \r\n \t\r\n \t[\r\n \t\t\t{\r\n \t\t\t\t\"profile\":\"A\",\r\n \t\t\t\t\"connectionDtos\":[\r\n \t\t\t\t\t{\r\n \t\t\t\t\t\t\"connectionId\":\"0001\",\r\n \t\t\t\t\t\t\"connectionDataDtos\":[\r\n \t\t\t\t\t\t\t{\r\n \t\t\t\t\t\t\t\t\"month\":\"JAN\",\r\n \t\t\t\t\t\t\t\t\"meterReading\":\"1\",\r\n \t\t\t\t\t\t\t\t\"fraction\":\"0.091\"\r\n \t\t\t\t\t\t\t},\r\n \t\t\t\t\t\t\t{\r\n \t\t\t\t\t\t\t\t\"month\":\"FEB\",\r\n \t\t\t\t\t\t\t\t\"meterReading\":\"2\",\r\n \t\t\t\t\t\t\t\t\"fraction\":\"0.091\"\r\n \t\t\t\t\t\t\t},\r\n \t\t\t\t\t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"MAR\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"3\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"APR\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"4\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"MAY\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"5\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"JUN\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"6\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"JUL\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"7\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"AUG\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"8\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"SEP\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"9\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"OCT\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"10\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"NOV\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"11\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t},\r\n\t\t\t\t \t\t\t{\r\n\t\t\t\t \t\t\t\t\"month\":\"DEC\",\r\n\t\t\t\t \t\t\t\t\"meterReading\":\"12\",\r\n\t\t\t\t \t\t\t\t\"fraction\":\"0.091\"\r\n\t\t\t\t \t\t\t}\r\n\t\t\t\t \t\t]\r\n \t\t\t\t\t}\r\n \t\t\t\t]\r\n \t\t\t}\r\n\t]\r\n \t\t\t\r\n\r\n \r\n"
+		}
+	]
+}

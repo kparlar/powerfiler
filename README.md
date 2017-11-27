@@ -9,27 +9,18 @@ Have fun.
 
 ## Api End Points
 For detailed api check Swagger please, swagger annotation is used in this project.
-Postman collections are in the postman folder. There is a screenshot below.
+You can check it from this link, http://localhost:8000/swagger-ui.html#/
+Also here is the screenshot for swagger.
 
-### For App operations
-/api/app/powerfiler/v1/connections
+![Swagger](img/api.PNG?raw=true "Swagger")
 
-1. /api/app/powerfiler/v1/connections/{connectionId}/consumption?startMonth={startMonth}&endMonth={endMonth} [GET] Consumption of given
-connectionId within given start and end month
 
-### For Data operations
-/api/data/powerfiler/v1/connections
 
-1. /api/app/powerfiler/v1/connections  [put] : Ingest Connection Data with Profile, Meters, Fractions
-2. /api/data/powerfiler/v1/connections/{connectionId}/meters [PUT] Ingest Meters data
-3. /api/data/powerfiler/v1/connections/{connectionId}/fractions [PUT] Ingest Fractions data
-4. /api/data/powerfiler/v1/connections/{connectionId}/meters/{month} [DELETE] Delete Meter given connectionId and month
-5. /api/data/powerfiler/v1/connections/{connectionId}/fractions/{month} [DELETE] Delete Fraction given connectionId and month
-6. /api/data/powerfiler/v1/connections/{id} [GET] Get Connection with id.
-7. /api/data/powerfiler/v1/connections/0001/meters [GET] Get All Meters related with connection Id
-8. /api/data/powerfiler/v1/connections/0001/fractions [GET] Get All Fraction related with connection Id
+## Postman Collections 
+Postman Collections are in the postman folder. There is a screenshot below.
 
- ![Postman Request Samples](img/powerfiler_postman.PNG?raw=true "Postman Request Samples")
+
+![Postman Request Samples](img/powerfiler_postman.PNG?raw=true "Postman Request Samples")
 
 
 ## Entity Model
@@ -57,6 +48,16 @@ Tables are also given below.
 After git clone, you can directly run from your ide as any spring-boot project. When the application stated
 you can use the postman request to insert data or get data.
 Given below the request samples.
+
+
+## Sheduled Task for CSV files
+There is a scheduled task created in this project too. When you run the spring-boot project, there is fixed delay period of 15 second 
+in each run, the scheduled task will read the  C://Temp/powerfiler/  folder and try to ingest data in csv files.
+If it is successfully ingested, deleted the file. And if any error is occurred than it logs to the same folder.
+Schedule task first change the file name with 'KEPT' like turning MeterDat.csv to MeterDatas_2743c533-b784-4951-90cd-27ef80ae041a_KEPT.csv
+and after that processes the file. If there is any error occured, this file is left in the same folder with KEPT filename.
+You can use this with test csv file under csv folder, name MeterDatas.csv.  
+
 
 
 
