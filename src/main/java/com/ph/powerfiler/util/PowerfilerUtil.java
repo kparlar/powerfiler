@@ -18,7 +18,7 @@ public class PowerfilerUtil {
         String[] months = dfs.getMonths();
         int i=1;
         for(String tempMonth: months){
-            if(!tempMonth.trim().equalsIgnoreCase("")&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
+            if(!PowerfilerConstants.EMPTY_STRING.equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
                 return i;
             }
             i++;
@@ -32,7 +32,7 @@ public class PowerfilerUtil {
         DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         for(String tempMonth: months){
-            if(!tempMonth.trim().equalsIgnoreCase("")&&tempMonth.equalsIgnoreCase(month)){
+            if(!PowerfilerConstants.EMPTY_STRING.equalsIgnoreCase(tempMonth.trim())&&tempMonth.equalsIgnoreCase(month)){
                 return tempMonth.substring(0, 3).toUpperCase();
             }
         }
@@ -40,11 +40,9 @@ public class PowerfilerUtil {
     }
     public boolean isValidMonth(String month){
         int monthValue = convertMonthToInteger(month);
-        if(monthValue < 0){
+        if(monthValue < 0)
             return false;
-        }else{
-            return true;
-        }
+        return true;
     }
 
     public String findPreviousMonth(String month){
@@ -55,7 +53,7 @@ public class PowerfilerUtil {
         int i=0;
         int monthFound = -1;
         for(String tempMonth: months){
-            if(!tempMonth.trim().equalsIgnoreCase("")&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
+            if(!tempMonth.trim().equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
                 monthFound=i;
                 break;
             }
@@ -74,7 +72,7 @@ public class PowerfilerUtil {
         int i=0;
         int monthFound = -1;
         for(String tempMonth: months){
-            if(!tempMonth.trim().equalsIgnoreCase("")&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
+            if(!tempMonth.trim().equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
                 monthFound=i;
                 break;
             }

@@ -59,7 +59,9 @@ and after that processes the file. If there is any error occured, this file is l
 You can use this with test csv file under csv folder, name MeterDatas.csv.  
 
 
-
+## Code Quality
+There are 27 sonar issues left to resolve , they are not a big issue but needs time to solve them.
+![SONAR](img/sonar.PNG?raw=true "SONAR")
 
 
 

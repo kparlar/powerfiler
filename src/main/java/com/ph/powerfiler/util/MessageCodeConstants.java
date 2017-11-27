@@ -58,6 +58,8 @@ public class MessageCodeConstants {
     public static final String SUCCESSFULLY_DELETED_SUCCESS_MESSAGE = "%s %s successfully deleted";
     public static final String SUCCESSFULLY_DELETED_SUCCESS_CODE = "OK01";
 
-
+    private MessageCodeConstants() {
+        throw new IllegalAccessError("Utility class");
+    }
 
 }

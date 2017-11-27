@@ -51,9 +51,9 @@ public class ValidateOperation {
            }
 
            Long meterDtoPreviousReading = meterDtoPrevious!=null?Long.parseLong(meterDtoPrevious.getMeterReading()):0;
-           Long meterDtoCurrentReading = Long.parseLong(meterDtoCurrent.getMeterReading());
 
-           double consumption = meterDtoCurrentReading - meterDtoPreviousReading;
+
+
            FractionDto fractionDto = connectionTreeMapDto.getFractionDtos().get(i+1);
            double currentFraction = Double.parseDouble(fractionDto.getFraction());
 
@@ -69,18 +69,13 @@ public class ValidateOperation {
 
            totalFraction+= Double.parseDouble(fractionDto.getFraction());
 
-
-
-           //validateNextMeterBiggerThanPrevious(profile, connectionTreeMapDto, meterDtoList, i, exceptionMessage);
-           //validateConsumptionWithTolerance(totalConsumption, profile, connectionTreeMapDto, meterDtoList, i, exceptionMessage);
-
        }
        totalFraction = Math.round(totalFraction * 100) / 100;
        SumFractionRule sumFractionRule  = new SumFractionRule(profile, connectionTreeMapDto.getConnectionId(), totalFraction);
        sumFractionRule.validate();
        validationDtos.addAll(sumFractionRule.getValidationDtos());
 
-       return validationDtos.size()>0?false:true;
+       return validationDtos.isEmpty();
     }
 
 }

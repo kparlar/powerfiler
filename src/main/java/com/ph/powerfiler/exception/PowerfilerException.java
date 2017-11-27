@@ -13,7 +13,7 @@ public class PowerfilerException extends Exception {
     public PowerfilerException(String errorMessage, String errorCode, boolean showMessage) {
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
-        this.showMessage = false;
+        this.showMessage = showMessage;
         this.status = HttpStatus.INTERNAL_SERVER_ERROR;// Default http status when not given
         this.carriedOverException = null;
     }

@@ -14,13 +14,6 @@ public class Profile extends PowerfilerObject{
     @Column(name = "NAME", length = 4000)
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "fromProfile")
@@ -32,6 +25,19 @@ public class Profile extends PowerfilerObject{
             referencedColumnName = "ID")}, inverseJoinColumns = {@JoinColumn(name = "TO_ID",
             referencedColumnName = "ID")})
     private List<Connection> connections;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+
+
 
     public List<HasConnection> getHasConnections() {
         return hasConnections;

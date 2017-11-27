@@ -53,8 +53,6 @@ public class CsvMigrateTask {
     }
     private void processCsvFiles(){
 
-        List<String> fileList = new ArrayList<>();
-
         File[] listOfFolders = getUnkeptFolderList();
 
 
@@ -74,7 +72,7 @@ public class CsvMigrateTask {
                 keptFile.delete();
             }
         } catch (PowerfilerException e) {
-            log.error("Error occured");
+            log.error("Error occured", e);
         }
 
 
@@ -93,9 +91,8 @@ public class CsvMigrateTask {
 
     public ConnectionsDto getAllData(
             File file) throws PowerfilerException {
-        List<ConnectionsDto> connectionsDtos = new ArrayList<>();
         try {
-            return readFromCsv(file, true);
+            return readFromCsv(file);
         } catch (IOException e) {
             log.error(MessageCodeConstants.FILE_COULD_NOT_READ_MESSAGE
                     + e);
@@ -108,13 +105,13 @@ public class CsvMigrateTask {
     }
 
 
-    public ConnectionsDto readFromCsv(File file, boolean isMeter) throws IOException,
-            PowerfilerException {
-         Reader in = new FileReader(file);
-        Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
-        List<List<String>> datas = null;
+    public ConnectionsDto readFromCsv(File file) throws PowerfilerException, IOException {
+         Reader in = null;
         ConnectionsDto connectionsDto = null;
         try{
+            in = new FileReader(file);
+        Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
+        List<List<String>> datas = null;
         connectionsDto = processCsvMeterContent(records);
         }catch(Exception ex){
             throw new PowerfilerException(MessageCodeConstants.CSV_FILE_DATA_FORMAT_ERROR, MessageCodeConstants.CSV_FILE_DATA_FORMAT_ERROR, ex, true);
@@ -138,18 +135,15 @@ public class CsvMigrateTask {
                 if(record.get(0).equalsIgnoreCase("CONNECTION_ID")){
                     parseMeter = true;
                     parseFraction = false;
-                    continue;
-                }
-                if(record.get(0).equalsIgnoreCase("MONTH")){
+                }else  if(record.get(0).equalsIgnoreCase("MONTH")){
                     parseMeter = false;
                     parseFraction = true;
-                    continue;
+                }else {
+                    if (parseMeter)
+                        meterDtos.add(processCsvMeterRows(record));
+                    if (parseFraction)
+                        fractionDtos.add(processCsvFractionRows(record));
                 }
-
-                if(parseMeter)
-                    meterDtos.add(processCsvMeterRows(record));
-                if(parseFraction)
-                    fractionDtos.add(processCsvFractionRows(record));
             }
 
 

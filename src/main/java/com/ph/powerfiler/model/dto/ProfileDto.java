@@ -1,7 +1,5 @@
 package com.ph.powerfiler.model.dto;
 
-import com.ph.powerfiler.model.entity.Profile;
-
 import java.util.List;
 
 public class ProfileDto {

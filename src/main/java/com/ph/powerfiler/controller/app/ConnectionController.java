@@ -1,11 +1,7 @@
 package com.ph.powerfiler.controller.app;
 
-import com.ph.powerfiler.exception.ExceptionMessage;
 import com.ph.powerfiler.exception.PowerfilerException;
 import com.ph.powerfiler.model.dto.ConsumptionDto;
-import com.ph.powerfiler.model.dto.ProfileDto;
-import com.ph.powerfiler.model.entity.Fraction;
-import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.operation.ConnectionOperation;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,11 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/app/powerfiler/v1/connections")

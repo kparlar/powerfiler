@@ -11,7 +11,7 @@ public class SumFractionRule implements IRule {
     private double totalFraction;
     private String profile;
     private String connectionId;
-    public List<ValidationDto> validationDtos;
+    private List<ValidationDto> validationDtos;
 
 
     public SumFractionRule(String profile, String connectionId, double totalFraction){
@@ -34,7 +34,8 @@ public class SumFractionRule implements IRule {
 
     @Override
     public void validate() {
-        if(new Double(totalFraction).compareTo(new Double("1.0"))!=0){
+        Double result = totalFraction;
+        if(result.compareTo(new Double("1.0"))!=0){
             ValidationDto validationDto = new ValidationDto(String.format(MessageCodeConstants.TOTAL_FRACTION_NOT_ONE_EXCEPTION_MESSAGE, this.profile, this.connectionId), MessageCodeConstants.TOTAL_FRACTION_NOT_ONE_EXCEPTION_CODE);
             addValidationDto(validationDto);
         }

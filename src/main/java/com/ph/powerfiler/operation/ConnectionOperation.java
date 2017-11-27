@@ -9,6 +9,7 @@ import com.ph.powerfiler.model.entity.Meter;
 import com.ph.powerfiler.model.entity.Profile;
 import com.ph.powerfiler.repository.ConnectionRepository;
 import com.ph.powerfiler.util.MessageCodeConstants;
+import com.ph.powerfiler.util.PowerfilerConstants;
 import com.ph.powerfiler.util.PowerfilerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,7 @@ public class ConnectionOperation {
         List<ValidationDto> validationDtos = new ArrayList<>();
         exceptionMessage.setValidationDtos(validationDtos);
         HashMap<String, HashMap<String, ConnectionTreeMapDto>> profileConnectionsMap = arrangeProfileAndConnections(profileDtos, validationDtos);
-        if(validationDtos.size() == 0){
+        if(validationDtos.isEmpty()){
             List<String[]> validProfileConnections = new ArrayList<>();
             validateOperation.validation(profileConnectionsMap, validProfileConnections, validationDtos);
             profileOperation.saveValidProfiles(profileConnectionsMap, validProfileConnections);
@@ -114,7 +115,7 @@ public class ConnectionOperation {
         List<ValidationDto> validationDtos = new ArrayList<>();
         exceptionMessage.setValidationDtos(validationDtos);
         HashMap<String, HashMap<String, ConnectionTreeMapDto>> profileConnectionsMap = arrangeCsvProfileAndConnections(connectionsDto, validationDtos);
-        if(validationDtos.size() == 0){
+        if(validationDtos.isEmpty()){
             List<String[]> validProfileConnections = new ArrayList<>();
             validateOperation.validation(profileConnectionsMap, validProfileConnections, validationDtos);
             profileOperation.saveValidProfiles(profileConnectionsMap, validProfileConnections);
@@ -127,7 +128,7 @@ public class ConnectionOperation {
         HashMap<String, HashMap<String, ConnectionTreeMapDto>> profileConnectionsMap = new HashMap<>();
         HashMap<String, String> profileConnectionMap = new HashMap<>();
         if(CollectionUtils.isEmpty(meterDtos)){
-            ValidationDto validationDto = new ValidationDto(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Meter"), MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE);
+            ValidationDto validationDto = new ValidationDto(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, PowerfilerConstants.TEXT_METER), MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE);
             validationDtos.add(validationDto);
             return null;
         }
@@ -147,7 +148,7 @@ public class ConnectionOperation {
         }
         List<FractionDto> fractionDtos = connectionsDto.getFractionDtos();
         if(CollectionUtils.isEmpty(fractionDtos)){
-            ValidationDto validationDto = new ValidationDto(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "Fraction"), MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE);
+            ValidationDto validationDto = new ValidationDto(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, PowerfilerConstants.TEXT_FRACTION), MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE);
             validationDtos.add(validationDto);
             return null;
         }
@@ -205,8 +206,7 @@ public class ConnectionOperation {
         Meter startMeter = meterOperation.getMeter(connectionId, startDBMonth);
         Meter endMeter = meterOperation.getMeter(connectionId, endDBMonth);
         long consumption = endMeter.getReading()  - startMeter.getReading();
-        ConsumptionDto consumptionDto = new ConsumptionDto(connectionId, startMonth, endMonth, String.valueOf(consumption));
-        return consumptionDto;
+        return new ConsumptionDto(connectionId, startMonth, endMonth, String.valueOf(consumption));
     }
 
     public ExceptionMessage addMeter(String connectionId, MeterValueDto meterValueDto) throws PowerfilerException {
@@ -220,13 +220,13 @@ public class ConnectionOperation {
         isValidMonth(meterValueDto.getMonth());
         Meter meter = meterOperation.getMeter(connectionId, meterValueDto.getMonth().toUpperCase());
         if(meter!=null){
-            throw new PowerfilerException(String.format(MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_MESSAGE,"Meter","Meter", meter.getId()),
+            throw new PowerfilerException(String.format(MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_MESSAGE,PowerfilerConstants.TEXT_METER,PowerfilerConstants.TEXT_METER, meter.getId()),
                     MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_CODE,HttpStatus.BAD_REQUEST, true);
         }
         MeterDto meterDto = new MeterDto(connection.getConnectionId(), profile.getName(), meterValueDto.getMonth(), meterValueDto.getMeterReading());
         List<ValidationDto> validationDtos= meterOperation.validateMeter(meterDto);
         exceptionMessage.setValidationDtos(validationDtos);
-        if(validationDtos.size() == 0){
+        if(validationDtos.isEmpty()){
             meterOperation.saveAndRelateWithConnection(connection, new MeterDto[]{meterDto});
         }
         return exceptionMessage;
@@ -237,15 +237,14 @@ public class ConnectionOperation {
         if (connectionId == null || month == null) {
             throw new PowerfilerException(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "ConnectionId or Month"), MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, HttpStatus.BAD_REQUEST, true);
         }
-        Connection connection = getConnection(connectionId);
+        getConnection(connectionId);
         Meter meter = getMeter(connectionId, month);
         boolean isDeleted = meterOperation.delete(meter.getId());
         List<ValidationDto> validationDtos = new ArrayList<>();
-        ValidationDto validationDto;
         if (!isDeleted) {
-            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_MESSAGE, "Meter", month), MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_CODE));
+            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_MESSAGE, PowerfilerConstants.TEXT_METER, month), MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_CODE));
         } else {
-            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_MESSAGE, "Meter", month), MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_CODE));
+            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_MESSAGE, PowerfilerConstants.TEXT_METER, month), MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_CODE));
         }
         exceptionMessage.setValidationDtos(validationDtos);
         return exceptionMessage;
@@ -254,7 +253,7 @@ public class ConnectionOperation {
     private Meter getMeter(String connectionId, String month) throws PowerfilerException {
         Meter meter = meterOperation.getMeter(connectionId, month.toUpperCase());
         if(meter==null){
-            throw new PowerfilerException(String.format(MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_MESSAGE, "Meter", month), MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_CODE,
+            throw new PowerfilerException(String.format(MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_MESSAGE, PowerfilerConstants.TEXT_METER, month), MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_CODE,
                     HttpStatus.NOT_FOUND, true);
         }
         return meter;
@@ -273,7 +272,7 @@ public class ConnectionOperation {
         MeterDto meterDto = new MeterDto(connection.getConnectionId(), profile.getName(), month, meterReading);
         List<ValidationDto> validationDtos= meterOperation.validateMeter(meterDto);
         exceptionMessage.setValidationDtos(validationDtos);
-        if(validationDtos.size() == 0){
+        if(validationDtos.isEmpty()){
             meter.setReading(Long.parseLong(meterReading));
             meterOperation.update(meter);
         }
@@ -298,7 +297,7 @@ public class ConnectionOperation {
         Profile profile = getProfile(connectionId);
         Fraction fraction = fractionOperation.getFraction(connectionId, fractionValueDto.getMonth().toUpperCase());
         if(fraction!=null){
-            throw new PowerfilerException(String.format(MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_MESSAGE,"Fraction","Fraction", fraction.getId()), MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_CODE,
+            throw new PowerfilerException(String.format(MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_MESSAGE,PowerfilerConstants.TEXT_FRACTION,PowerfilerConstants.TEXT_FRACTION, fraction.getId()), MessageCodeConstants.DELETE_FIRST_DATA_EXCEPTION_CODE,
                     HttpStatus.BAD_REQUEST, true);
         }
 
@@ -306,7 +305,7 @@ public class ConnectionOperation {
         List<ValidationDto> validationDtos = fractionOperation.validateFraction(connectionId, Double.parseDouble(fractionValueDto.getFraction()), connection.getFractions(), profile.getName());
         exceptionMessage.setValidationDtos(validationDtos);
 
-        if(validationDtos.size() == 0){
+        if(validationDtos.isEmpty()){
             fractionOperation.saveAndRelateWithConnection(connection, new FractionDto[]{new FractionDto(null, fractionValueDto.getMonth(), fractionValueDto.getFraction())});
         }
         return exceptionMessage;
@@ -328,15 +327,15 @@ public class ConnectionOperation {
         if(connectionId == null || month == null){
             throw new PowerfilerException(String.format(MessageCodeConstants.DATA_SENT_EMPTY_ERROR_MESSAGE, "ConnectionId or Month"), MessageCodeConstants.DATA_SENT_EMPTY_ERROR_CODE, true);
         }
-        Connection connection = getConnection(connectionId);
+        getConnection(connectionId);
         Fraction fraction = getFraction(connectionId, month);
         boolean isDeleted = fractionOperation.delete(fraction.getId());
         List<ValidationDto> validationDtos = new ArrayList<>();
         exceptionMessage.setValidationDtos(validationDtos);
         if (!isDeleted) {
-            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_MESSAGE, "Meter", month), MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_CODE));
+            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_MESSAGE, PowerfilerConstants.TEXT_METER, month), MessageCodeConstants.DELETE_IS_NOT_SUCCESSFUL_EXCEPTION_CODE));
         } else {
-            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_MESSAGE, "Meter", month), MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_CODE));
+            validationDtos.add(new ValidationDto(String.format(MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_MESSAGE, PowerfilerConstants.TEXT_METER, month), MessageCodeConstants.SUCCESSFULLY_DELETED_SUCCESS_CODE));
         }
         return exceptionMessage;
     }
@@ -355,7 +354,7 @@ public class ConnectionOperation {
         Double fractionDiff = fraction.getFraction() - Double.parseDouble(fractionStr);
         List<ValidationDto> validationDtos = fractionOperation.validateFraction(connectionId, fractionDiff, connection.getFractions(), profile.getName());
         exceptionMessage.setValidationDtos(validationDtos);
-        if(validationDtos.size() == 0){
+        if(validationDtos.isEmpty()){
             fraction.setFraction(Double.parseDouble(fractionStr));
             fractionOperation.update(fraction);
         }
@@ -375,7 +374,7 @@ public class ConnectionOperation {
     private Fraction getFraction(String connectionId, String month) throws PowerfilerException {
         Fraction fraction = fractionOperation.getFraction(connectionId, month.toUpperCase());
         if(fraction==null){
-            throw new PowerfilerException(String.format(MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_MESSAGE,"Fraction", month),
+            throw new PowerfilerException(String.format(MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_MESSAGE, PowerfilerConstants.TEXT_FRACTION, month),
                     MessageCodeConstants.NOT_VALID_ENTITY_EXCEPTION_CODE,
                     HttpStatus.NOT_FOUND, true);
         }
