@@ -53,7 +53,7 @@ public class PowerfilerUtil {
         int i=0;
         int monthFound = -1;
         for(String tempMonth: months){
-            if(!tempMonth.trim().equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
+            if(!PowerfilerConstants.EMPTY_STRING.equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
                 monthFound=i;
                 break;
             }
@@ -72,7 +72,7 @@ public class PowerfilerUtil {
         int i=0;
         int monthFound = -1;
         for(String tempMonth: months){
-            if(!tempMonth.trim().equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
+            if(!PowerfilerConstants.EMPTY_STRING.equalsIgnoreCase(tempMonth.trim())&&tempMonth.substring(0, 3).equalsIgnoreCase(month)){
                 monthFound=i;
                 break;
             }

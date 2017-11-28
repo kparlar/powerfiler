@@ -47,7 +47,19 @@ Tables are also given below.
 ## How To Run
 After git clone, you can directly run from your ide as any spring-boot project. When the application stated
 you can use the postman request to insert data or get data.
-Given below the request samples.
+Or if you want to run jar, first you have to clone the project from repository, inside the powerfiler folder run first
+**mvn package** this will build a jar called **powerfiler-0.0.1-SNAPSHOT.jar** under target folder. 
+Than you can run the application with  **java -jar powerfiler-0.0.1-SNAPSHOT.jar** command.
+
+when the service is on, it will host on port 8000. First you have to ingest data
+please request the postman   data >> Connections  PUT service  **http://localhost:8000/api/data/powerfiler/v1/connections** this one
+it will directly populated dummy data so you can easily get the data, if you want add another data, feel free with modify the body, but 
+please be careful with the format.
+
+Ex: to get consumption run the app >> Consumption Given Start - End Month Interval  request like **http://localhost:8000/api/app/powerfiler/v1/connections/0001/consumption?startMonth=JANUARY&endMonth=MAY**
+this one.
+If you have any question feel free to ask.
+ 
 
 
 ## Sheduled Task for CSV files
